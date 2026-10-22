@@ -1,0 +1,62 @@
+:root {
+  /* Brand */
+  --brand-primary: #ff7701;
+  --brand-primary-hover: #d95f00;
+  --brand-primary-pressed: #b84d00;
+
+  /* Background */
+  --background-page: #f7f7f7;
+  --background-surface: #ffffff;
+  --background-secondary: #ffffff;
+
+  /* Text */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-on-primary: #ffffff;
+
+  /* Border */
+  --border-default: #dddddd;
+
+  /* Status */
+  --status-error: #d32f2f;
+  --status-success: #2e7d32;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* Radius */
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-pill: 999px;
+}
+
+[data-theme="dark"] {
+  /* Brand */
+  --brand-primary: #ff7701;
+  --brand-primary-hover: #ff943d;
+  --brand-primary-pressed: #d95f00;
+
+  /* Background */
+  --background-page: #121212;
+  --background-surface: #1e1e1e;
+  --background-secondary: #2a2a2a;
+
+  /* Text */
+  --text-primary: #f5f5f5;
+  --text-secondary: #b3b3b3;
+  --text-on-primary: #ffffff;
+
+  /* Border */
+  --border-default: #404040;
+
+  /* Status */
+  --status-error: #ff6b6b;
+  --status-success: #66bb6a;
+}
