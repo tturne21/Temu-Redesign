@@ -1,0 +1,27 @@
+body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  background-color: var(--background-page);
+  color: var(--text-primary);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[data-theme] {
+  min-height: 100vh;
+  background-color: var(--background-page);
+  color: var(--text-primary);
+}
