@@ -22,7 +22,9 @@ function SiteHeader({
   const [searchText, setSearchText] = useState('')
   const [suggestionsOpen, setSuggestionsOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
   const normalizedQuery = searchText.trim().toLocaleLowerCase()
+
   const matches = normalizedQuery
     ? products.filter((product) =>
         `${product.name} ${product.category}`
@@ -30,6 +32,7 @@ function SiteHeader({
           .includes(normalizedQuery),
       )
     : products.slice(0, 3)
+
   const suggestions = matches.slice(0, 5)
 
   useEffect(() => {
@@ -57,6 +60,7 @@ function SiteHeader({
 
   function submitSearch(event) {
     event.preventDefault()
+
     if (!searchText.trim()) {
       setSuggestionsOpen(true)
       return
@@ -93,9 +97,28 @@ function SiteHeader({
   return (
     <header className="site-header">
       <div className="header-main">
-        <a className="brand" href="./" aria-label="Temu home" onClick={goHome}>
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-controls="main-navigation"
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <a
+          className="brand"
+          href="./"
+          aria-label="Temu home"
+          onClick={goHome}
+        >
           TEMU
         </a>
+
         <form
           className="search-form"
           onSubmit={submitSearch}
@@ -105,6 +128,7 @@ function SiteHeader({
           <label className="visually-hidden" htmlFor="site-search">
             Search products
           </label>
+
           <svg
             className="search-icon"
             viewBox="0 0 24 24"
@@ -125,6 +149,7 @@ function SiteHeader({
               strokeLinecap="round"
             />
           </svg>
+
           <input
             id="site-search"
             type="search"
@@ -138,9 +163,11 @@ function SiteHeader({
             }}
             onFocus={() => setSuggestionsOpen(true)}
           />
+
           <button className="search-submit" type="submit">
             Search
           </button>
+
           <div
             className="search-suggestions"
             id="search-suggestions"
@@ -162,6 +189,7 @@ function SiteHeader({
             ))}
           </div>
         </form>
+
         <div className="header-actions">
           <button
             className="theme-toggle"
@@ -176,21 +204,9 @@ function SiteHeader({
               <span aria-hidden="true">☾</span>
             )}
           </button>
-
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-controls="main-navigation"
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </div>
       </div>
+
       <nav
         className={`main-nav${menuOpen ? ' is-open' : ''}`}
         id="main-navigation"

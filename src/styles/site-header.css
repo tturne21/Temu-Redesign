@@ -1,6 +1,7 @@
 .site-header {
   position: relative;
   z-index: 2;
+  width: 100%;
   background: var(--background-surface);
   box-shadow: 0 2px 8px rgb(0 0 0 / 7%);
 }
@@ -21,13 +22,14 @@
   font-weight: 700;
   letter-spacing: -1.5px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .search-form {
   position: relative;
   display: flex;
-  height: 46px;
   min-width: 0;
+  height: 46px;
 }
 
 .search-form:focus-within {
@@ -114,9 +116,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   gap: 5px;
+  padding: 0;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-medium);
   background: transparent;
   cursor: pointer;
 }
@@ -129,6 +133,32 @@
 }
 
 .menu-toggle:hover {
+  background: var(--background-secondary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
   background: var(--background-secondary);
 }
 
@@ -175,76 +205,65 @@
   color: var(--text-secondary);
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.theme-toggle {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: var(--radius-medium);
-  background: transparent;
-  color: var(--text-primary);
-  font-size: 24px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.theme-toggle:hover {
-  background: var(--background-secondary);
-}
-
+/* Mobile */
 @media (max-width: 700px) {
   .header-main {
     width: 100%;
     max-width: 100%;
-    min-height: 0;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 8px;
-    padding: 12px;
+    min-height: 64px;
+    grid-template-columns: 40px auto minmax(0, 1fr) 40px;
+    gap: 6px;
+    padding: 10px 8px;
   }
 
   .header-main > * {
     min-width: 0;
   }
 
-  .search-form {
-    width: 100%;
-    min-width: 0;
-    height: 42px;
+  .menu-toggle {
+    display: flex;
+    width: 40px;
+    height: 40px;
   }
 
   .brand {
-    font-size: 23px;
+    font-size: 20px;
     letter-spacing: -1px;
   }
 
+  .search-form {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+  }
+
   .search-form input {
-    height: 42px;
-    padding: 0 10px 0 36px;
-    font-size: 13px;
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: 0 6px 0 30px;
+    font-size: 12px;
   }
 
   .search-icon {
-    top: 11px;
-    left: 10px;
-    width: 20px;
-    height: 20px;
+    top: 10px;
+    left: 7px;
+    width: 19px;
+    height: 19px;
   }
 
   .search-submit {
     display: none;
   }
 
-  .menu-toggle {
-    display: flex;
-    flex-shrink: 0;
+  .header-actions {
+    width: 40px;
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
   }
 
   .main-nav {
@@ -274,17 +293,5 @@
 
   .main-nav a:last-child {
     border-bottom: 0;
-  }
-}
-
-@media (max-width: 360px) {
-  .header-main {
-    gap: 8px;
-    padding-right: 9px;
-    padding-left: 9px;
-  }
-
-  .brand {
-    font-size: 20px;
   }
 }
