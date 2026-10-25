@@ -25,3 +25,10 @@ button {
   background-color: var(--background-page);
   color: var(--text-primary);
 }
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
