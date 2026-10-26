@@ -2,7 +2,7 @@ import ProductCard from '../components/ProductCard'
 import { weeklyDeals, popularProducts } from '../data/products'
 import '../styles/home.css'
 
-function Home({ products, searchQuery, selectedCategory }) {
+function Home({ products, searchQuery, selectedCategory, onProductClick, onAddToCart }) {
   if (searchQuery || selectedCategory) {
     const normalizedQuery = searchQuery.toLocaleLowerCase()
     const filteredProducts = products.filter((product) => {
@@ -32,6 +32,13 @@ function Home({ products, searchQuery, selectedCategory }) {
                   image={product.image}
                   name={product.name}
                   price={product.price}
+                  onProductClick={() => onProductClick?.(product)}
+
+onAddToCart={() => onAddToCart?.({
+  ...product,
+  quantity: 1
+})}
+
                 />
               ))}
             </div>
@@ -57,6 +64,15 @@ function Home({ products, searchQuery, selectedCategory }) {
               image={product.image}
               name={product.name}
               price={product.price}
+              onProductClick={() => onProductClick?.(product)}
+
+onAddToCart={() => onAddToCart?.({
+  ...product,
+  quantity: 1
+})}
+
+
+
             />
           ))}
         </div>
@@ -72,6 +88,13 @@ function Home({ products, searchQuery, selectedCategory }) {
               image={product.image}
               name={product.name}
               price={product.price}
+              onProductClick={() => onProductClick?.(product)}
+
+onAddToCart={() => onAddToCart?.({
+  ...product,
+  quantity: 1
+})}
+
             />
           ))}
         </div>

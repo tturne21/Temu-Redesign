@@ -6,6 +6,8 @@ import ledMiniDeskLamp from '../assets/images/LED-DESK-LAMP.avif'
 import everydaySneakers from '../assets/images/EVERYDAY-SNEAKERS.avif'
 import storageOrganizer from '../assets/images/STORAGE-ORGANIZER.avif'
 import phoneCase from '../assets/images/PHONE-CASE.avif'
+import bluePhoneCase from '../assets/images/BLUE-PHONE-CASE.avif'
+import pinkPhoneCase from '../assets/images/PINK-PHONE-CASE.avif'
 import makeupBrushSet from '../assets/images/MAKEUP-BRUSH.avif'
 import taffyCandy from '../assets/images/taffy-candy.jpg'
 
@@ -44,38 +46,43 @@ export const popularProducts = [
   {
     id: 5,
     name: 'Everyday Sneakers',
-    price: '$39.99',
+    price: '$26.99',
     image: everydaySneakers,
     category: 'Clothes',
   },
   {
     id: 6,
     name: 'Storage Organizer',
-    price: '$39.99',
+    price: '$15.99',
     image: storageOrganizer,
     category: 'Furniture',
   },
   {
     id: 7,
     name: 'Phone Case',
-    price: '$39.99',
+    price: '$6.99',
     image: phoneCase,
     category: 'Electronics',
+    colorImages: {
+      Blue: bluePhoneCase,
+      Black: phoneCase,
+      Pink: pinkPhoneCase,
+    },
   },
   {
     id: 8,
     name: 'Makeup Brush Set',
-    price: '$39.99',
+    price: '$9.99',
     image: makeupBrushSet,
     category: 'Beauty',
   },
   {
-  id: 9,
-  name: 'Taffy Candy',
-  price: '$4.99',
-  image: taffyCandy,
-  category: 'Toys',
-},
+    id: 9,
+    name: 'Taffy Candy',
+    price: '$4.99',
+    image: taffyCandy,
+    category: 'Toys',
+  },
 ]
 
 export const allProducts = [...weeklyDeals, ...popularProducts]
