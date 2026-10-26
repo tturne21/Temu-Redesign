@@ -11,11 +11,11 @@ function Confirmation({ onContinueShopping }) {
           role="status"
         >
           <span className="confirmation-check">✓</span>
-          <span>ORDER CONFIRMED</span>
+          <span>ORDER CONFIRMED!</span>
         </div>
 
         <p className="confirmation-message">
-          THANK YOU! YOUR ORDER HAS BEEN PLACED SUCCESSFULLY.
+          THANK YOU! YOUR ORDER HAS BEEN PLACED SUCCESSFULLY AND IS ON ITS WAY!!
         </p>
 
         <button
