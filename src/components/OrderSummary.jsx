@@ -11,6 +11,7 @@ function OrderSummary({ items = [] }) {
     return total + price * item.quantity
   }, 0)
 
+  //default values for order summary until discounts are added on product details page
   const shipping = 0
   const discount = 0
   const estimatedTotal = subtotal + shipping - discount
