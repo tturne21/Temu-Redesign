@@ -78,14 +78,6 @@ function openCart() {
   window.scrollTo(0, 0)
 }
 
-function openHome() {
-  setCurrentPage('home')
-  window.scrollTo(0, 0)
-}
-
-
-
-
   function toggleTheme() {
     setDarkMode((currentMode) => !currentMode)
   }
