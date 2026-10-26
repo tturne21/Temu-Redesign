@@ -211,7 +211,7 @@
     width: 100%;
     max-width: 100%;
     min-height: 64px;
-    grid-template-columns: 40px auto minmax(0, 1fr) 40px;
+    grid-template-columns: 40px auto minmax(0, 1fr) 80px;
     gap: 6px;
     padding: 10px 8px;
   }
@@ -256,9 +256,23 @@
     display: none;
   }
 
-  .header-actions {
-    width: 40px;
-  }
+  
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  width: 80px;
+  min-width: 0;
+}
+
+.cart-toggle,
+.theme-toggle {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+}
+
 
   .theme-toggle {
     width: 40px;
