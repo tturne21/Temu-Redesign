@@ -1,1 +1,114 @@
+
+/*confirmation page*/
+
+.confirmation-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: calc(100vh - 130px);
+  width: 100%;
+  padding: 48px 24px;
+
+  background: var(--background-page, #ffffff);
+  color: var(--text-primary, #1a1a1a);
   font-family: Inter, Arial, sans-serif;
+}
+
+
+.confirmation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/*green checkmark*/
+
+.confirmation-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 56px;
+  padding: 12px 20px;
+
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  background: var(--background-surface, #ffffff);
+
+  color: var(--text-primary, #1a1a1a);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.confirmation-check {
+  color: #2e7d32;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/*final purchase confirmed popup*/
+
+.confirmation-message {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-primary, #1a1a1a);
+}
+
+/*contiune shopping button and look*/
+
+.confirmation-button {
+  min-height: 44px;
+  padding: 12px 24px;
+
+  border: none;
+  border-radius: 8px;
+  background: var(--brand-primary, #fb7701);
+
+  color: var(--text-on-primary, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.confirmation-button:hover {
+  background: var(--brand-primary-hover, #d95f00);
+}
+
+.confirmation-button:focus-visible {
+  outline: 2px solid var(--brand-primary, #fb7701);
+  outline-offset: 3px;
+}
+
+/*mobile check */
+
+@media (max-width: 768px) {
+  .confirmation-page {
+    min-height: calc(100vh - 110px);
+    padding: 32px 16px;
+  }
+
+  .confirmation-content {
+    max-width: 100%;
+  }
+
+  .confirmation-message {
+    font-size: 13px;
+  }
+
+  .confirmation-status {
+    padding: 12px 16px;
+  }
+}
