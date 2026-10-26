@@ -1,8 +1,14 @@
 import '../styles/product-card.css'
 
-function ProductCard({ image, name, price }) {
+function ProductCard({ image, name, price, onProductClick, onAddToCart }) {
   return (
-    <article className="product-card">
+    
+<article
+  className="product-card"
+  onClick={onProductClick}
+>
+
+      
       <img
         className="product-card__image"
         src={image}
@@ -14,9 +20,18 @@ function ProductCard({ image, name, price }) {
         <p className="product-card__price">{price}</p>
       </div>
 
-      <button className="product-card__button">
-        ADD TO CART
-      </button>
+      
+<button
+  type="button"
+  className="product-card__button"
+  onClick={(event) => {
+    event.stopPropagation()
+    onAddToCart?.()
+  }}
+>
+  ADD TO CART
+</button>
+
     </article>
   )
 }
