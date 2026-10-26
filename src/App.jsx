@@ -141,6 +141,7 @@ function handleHome() {
   <ProductDetails
     product={selectedProduct}
     onAddToCart={handleAddToCart}
+    onQuickCheckout={setQuickCheckoutProduct}
   />
 )}
 
