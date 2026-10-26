@@ -4,6 +4,9 @@ import Home from './pages/Home'
 import { allProducts } from './data/products'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
+import Confirmation from './pages/Confirmation'
+import QuickCheckout from './pages/QuickCheckout'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -13,7 +16,7 @@ function App() {
 
 const [currentPage, setCurrentPage] = useState('home')
 const [selectedProduct, setSelectedProduct] = useState(null)
-
+const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
 
 
 
@@ -130,6 +133,7 @@ function handleHome() {
   <ProductDetails
     product={selectedProduct}
     onAddToCart={handleAddToCart}
+    onQuickCheckout={setQuickCheckoutProduct}
   />
 )}
 
@@ -138,6 +142,35 @@ function handleHome() {
     items={cartItems}
     onUpdateQuantity={handleUpdateQuantity}
     onRemove={handleRemoveFromCart}
+    onCheckout={() => setCurrentPage('checkout')}
+  />
+)}
+
+{currentPage === 'checkout' && (
+  <Checkout
+    items={cartItems}
+    onPlaceOrder={() => {
+      setCurrentPage('confirmation')
+      window.scrollTo(0, 0)
+    }}
+  />
+)}
+
+{currentPage === 'confirmation' && (
+  <Confirmation
+    onContinueShopping={openHome}
+  />
+)}
+
+{quickCheckoutProduct && (
+  <QuickCheckout
+    product={quickCheckoutProduct}
+    onClose={() => setQuickCheckoutProduct(null)}
+    onPlaceOrder={() => {
+      setQuickCheckoutProduct(null)
+      setCurrentPage('confirmation')
+      window.scrollTo(0, 0)
+    }}
   />
 )}
 
