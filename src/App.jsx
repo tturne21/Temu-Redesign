@@ -13,172 +13,185 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [cartItems, setCartItems] = useState([])
-
-const [currentPage, setCurrentPage] = useState('home')
-const [selectedProduct, setSelectedProduct] = useState(null)
-const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
-
-
-
-
-const handleAddToCart = (product) => {
-  setCartItems((previousItems) => {
-    const existingItem = previousItems.find(
-      (item) =>
-        item.id === product.id &&
-        item.color === product.color
-    )
-
-    if (existingItem) {
-      return previousItems.map((item) =>
-        item.id === product.id &&
-        item.color === product.color
-          ? {
-              ...item,
-              quantity: item.quantity + product.quantity
-            }
-          : item
-      )
-    }
-
-
-
-
-    return [...previousItems, product]
-  })
-}
-
-
-const handleUpdateQuantity = (productId, color, newQuantity) => {
-  setCartItems((previousItems) =>
-    previousItems.map((item) =>
-      item.id === productId && item.color === color
-        ? { ...item, quantity: Math.max(1, newQuantity) }
-        : item
-    )
-  )
-}
-
-
-const handleRemoveFromCart = (productId, color) => {
-  setCartItems((previousItems) =>
-    previousItems.filter(
-      (item) =>
-        !(item.id === productId && item.color === color)
-    )
-  )
-}
-
-
-function openProductDetails(product) {
-  setSelectedProduct(product)
-  setCurrentPage('product')
-  window.scrollTo(0, 0)
-}
-
-function openCart() {
-  setCurrentPage('cart')
-  window.scrollTo(0, 0)
-}
+  const [currentPage, setCurrentPage] = useState('home')
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
 
   function toggleTheme() {
     setDarkMode((currentMode) => !currentMode)
   }
 
+  function handleAddToCart(product) {
+    setCartItems((previousItems) => {
+      const existingItem = previousItems.find(
+        (item) =>
+          item.id === product.id &&
+          item.color === product.color
+      )
+
+      if (existingItem) {
+        return previousItems.map((item) =>
+          item.id === product.id &&
+          item.color === product.color
+            ? {
+                ...item,
+                quantity: item.quantity + product.quantity,
+              }
+            : item
+        )
+      }
+
+      return [...previousItems, product]
+    })
+  }
+
+  function handleUpdateQuantity(productId, color, newQuantity) {
+    setCartItems((previousItems) =>
+      previousItems.map((item) =>
+        item.id === productId && item.color === color
+          ? {
+              ...item,
+              quantity: Math.max(1, newQuantity),
+            }
+          : item
+      )
+    )
+  }
+
+  function handleRemoveFromCart(productId, color) {
+    setCartItems((previousItems) =>
+      previousItems.filter(
+        (item) =>
+          !(item.id === productId && item.color === color)
+      )
+    )
+  }
+
+  function openProductDetails(product) {
+    setSelectedProduct(product)
+    setCurrentPage('product')
+    window.scrollTo(0, 0)
+  }
+
+  function openCart() {
+    setQuickCheckoutProduct(null)
+    setCurrentPage('cart')
+    window.scrollTo(0, 0)
+  }
+
+  function handleHome() {
+    setSelectedCategory(null)
+    setSearchQuery('')
+    setSelectedProduct(null)
+    setQuickCheckoutProduct(null)
+    setCurrentPage('home')
+    window.scrollTo(0, 0)
+  }
+
   function handleSearch(query) {
     setSearchQuery(query)
     setSelectedCategory(null)
+    setSelectedProduct(null)
+    setQuickCheckoutProduct(null)
+    setCurrentPage('home')
+    window.scrollTo(0, 0)
   }
 
   function handleCategory(category) {
     setSelectedCategory(category)
     setSearchQuery('')
+    setSelectedProduct(null)
+    setQuickCheckoutProduct(null)
+    setCurrentPage('home')
+    window.scrollTo(0, 0)
   }
 
-  
-function handleHome() {
-  setSelectedCategory(null)
-  setSearchQuery('')
-  setCurrentPage('home')
-  setSelectedProduct(null)
-  window.scrollTo(0, 0)
-}
+  function openQuickCheckout(product) {
+    setQuickCheckoutProduct(product)
+  }
 
+  function openCheckout() {
+    setQuickCheckoutProduct(null)
+    setCurrentPage('checkout')
+    window.scrollTo(0, 0)
+  }
+
+  function completeOrder() {
+    setQuickCheckoutProduct(null)
+    setCurrentPage('confirmation')
+    window.scrollTo(0, 0)
+  }
+
+  function continueShopping() {
+    setCartItems([])
+    setSelectedCategory(null)
+    setSearchQuery('')
+    setSelectedProduct(null)
+    setQuickCheckoutProduct(null)
+    setCurrentPage('home')
+    window.scrollTo(0, 0)
+  }
 
   return (
     <div data-theme={darkMode ? 'dark' : 'light'}>
       <SiteHeader
-  products={allProducts}
-  selectedCategory={selectedCategory}
-  onSearch={handleSearch}
-  onCategory={handleCategory}
-  onHome={handleHome}  
-  onCart={openCart}
-  darkMode={darkMode}
-  onToggleTheme={toggleTheme}
-/>
+        products={allProducts}
+        selectedCategory={selectedCategory}
+        onSearch={handleSearch}
+        onCategory={handleCategory}
+        onHome={handleHome}
+        onCart={openCart}
+        darkMode={darkMode}
+        onToggleTheme={toggleTheme}
+      />
 
-      
-{currentPage === 'home' && (
-  <Home
-    products={allProducts}
-    selectedCategory={selectedCategory}
-    searchQuery={searchQuery}
-    onProductClick={openProductDetails}
-    onAddToCart={handleAddToCart}
-  />
-)}
+      {currentPage === 'home' && (
+        <Home
+          products={allProducts}
+          selectedCategory={selectedCategory}
+          searchQuery={searchQuery}
+          onProductClick={openProductDetails}
+          onAddToCart={handleAddToCart}
+        />
+      )}
 
-{currentPage === 'product' && selectedProduct && (
-  <ProductDetails
-    product={selectedProduct}
-    onAddToCart={handleAddToCart}
-    onQuickCheckout={setQuickCheckoutProduct}
-  />
-)}
+      {currentPage === 'product' && selectedProduct && (
+        <ProductDetails
+          product={selectedProduct}
+          onAddToCart={handleAddToCart}
+          onQuickCheckout={openQuickCheckout}
+        />
+      )}
 
-{currentPage === 'cart' && (
-  <Cart
-    items={cartItems}
-    onUpdateQuantity={handleUpdateQuantity}
-    onRemove={handleRemoveFromCart}
-    onCheckout={() => setCurrentPage('checkout')}
-  />
-)}
+      {currentPage === 'cart' && (
+        <Cart
+          items={cartItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemove={handleRemoveFromCart}
+          onCheckout={openCheckout}
+        />
+      )}
 
-{currentPage === 'checkout' && (
-  <Checkout
-    items={cartItems}
-    onPlaceOrder={() => {
-      setCurrentPage('confirmation')
-      window.scrollTo(0, 0)
-    }}
-  />
-)}
+      {currentPage === 'checkout' && (
+        <Checkout
+          items={cartItems}
+          onPlaceOrder={completeOrder}
+        />
+      )}
 
-{currentPage === 'confirmation' && (
-  <Confirmation
-    onContinueShopping={openHome}
-  />
-)}
+      {currentPage === 'confirmation' && (
+        <Confirmation
+          onContinueShopping={continueShopping}
+        />
+      )}
 
-{quickCheckoutProduct && (
-  <QuickCheckout
-    product={quickCheckoutProduct}
-    onClose={() => setQuickCheckoutProduct(null)}
-    onPlaceOrder={() => {
-      setQuickCheckoutProduct(null)
-      setCurrentPage('confirmation')
-      window.scrollTo(0, 0)
-    }}
-  />
-)}
-
-
-
-
-
-
+      {quickCheckoutProduct && (
+        <QuickCheckout
+          product={quickCheckoutProduct}
+          onClose={() => setQuickCheckoutProduct(null)}
+          onPlaceOrder={completeOrder}
+        />
+      )}
     </div>
   )
 }

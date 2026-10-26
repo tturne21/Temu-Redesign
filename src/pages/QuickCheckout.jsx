@@ -1,11 +1,20 @@
-
 import { useEffect, useRef, useState } from 'react'
 import OrderSummary from '../components/OrderSummary'
 import '../styles/checkout.css'
 import '../styles/quick-checkout.css'
 
 function QuickCheckout({ product, onClose, onPlaceOrder }) {
-  const [color, setColor] = useState(product?.color || 'Blue')
+  const availableColors = product?.colorImages
+    ? Object.keys(product.colorImages)
+    : []
+
+  const startingColor =
+    product?.color ||
+    (availableColors.includes('Black')
+      ? 'Black'
+      : availableColors[0] || '')
+
+  const [color, setColor] = useState(startingColor)
   const [quantity, setQuantity] = useState(
     Math.max(1, Number(product?.quantity) || 1)
   )
@@ -21,7 +30,9 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     closeButtonRef.current?.focus()
 
     function handleKeyDown(event) {
-      if (event.key === 'Escape') onClose?.()
+      if (event.key === 'Escape') {
+        onClose?.()
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)
@@ -33,14 +44,26 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     }
   }, [onClose])
 
-  if (!product) return null
+  if (!product) {
+    return null
+  }
 
-  const item = { ...product, color, quantity }
+  const displayedImage =
+    product.colorImages && color
+      ? product.colorImages[color]
+      : product.image
+
+  const item = {
+    ...product,
+    image: displayedImage,
+    color,
+    quantity,
+  }
+
   const items = [item]
 
-  const price = Number(
-    String(product.price).replace(/[^0-9.]/g, '')
-  ) || 0
+  const price =
+    Number(String(product.price).replace(/[^0-9.]/g, '')) || 0
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -53,7 +76,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
     onPlaceOrder({
       items,
-      paymentMethod
+      paymentMethod,
     })
   }
 
@@ -93,8 +116,12 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
           <div className="quick-checkout-product">
             <img
               className="quick-checkout-image"
-              src={product.image}
-              alt={product.name}
+              src={displayedImage}
+              alt={
+                color
+                  ? `${product.name} in ${color}`
+                  : product.name
+              }
             />
 
             <div className="quick-checkout-info">
@@ -104,25 +131,27 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                 ${price.toFixed(2)}
               </p>
 
-              <div className="quick-checkout-selection">
-                <span>COLOR</span>
+              {availableColors.length > 0 && (
+                <div className="quick-checkout-selection">
+                  <span>COLOR</span>
 
-                <div className="quick-checkout-colors">
-                  {['Pink', 'Blue', 'Black'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      className={
-                        color === option ? 'selected' : ''
-                      }
-                      aria-pressed={color === option}
-                      onClick={() => setColor(option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
+                  <div className="quick-checkout-colors">
+                    {availableColors.map((option) => (
+                      <button
+                        key={option}
+                        type="button"
+                        className={
+                          color === option ? 'selected' : ''
+                        }
+                        aria-pressed={color === option}
+                        onClick={() => setColor(option)}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="quick-checkout-selection">
                 <span>QUANTITY</span>
@@ -160,12 +189,22 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
           <div className="quick-checkout-bottom">
             <section className="quick-checkout-payment">
               <h3>PAYMENT METHOD</h3>
+
               <p>Select Payment Method:</p>
 
               {[
-                { value: 'card', label: 'Credit / Debit Card' },
-                { value: 'paypal', label: 'PayPal' },
-                { value: 'applepay', label: 'Apple Pay' }
+                {
+                  value: 'card',
+                  label: 'Credit / Debit Card',
+                },
+                {
+                  value: 'paypal',
+                  label: 'PayPal',
+                },
+                {
+                  value: 'applepay',
+                  label: 'Apple Pay',
+                },
               ].map((method) => (
                 <label
                   key={method.value}
@@ -180,6 +219,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                       setPaymentMethod(method.value)
                     }
                   />
+
                   <span>{method.label}</span>
                 </label>
               ))}
@@ -190,6 +230,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
                   <label>
                     Cardholder Name
+
                     <input
                       type="text"
                       placeholder="Enter Name"
@@ -200,6 +241,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
                   <label>
                     Credit/Debit Card Number
+
                     <input
                       type="text"
                       placeholder="Enter Card Number"
@@ -212,6 +254,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                   <div className="quick-checkout-card-row">
                     <label>
                       Card Expiration Date
+
                       <input
                         type="text"
                         placeholder="MM/YY"
@@ -223,6 +266,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
                     <label>
                       Test CVC
+
                       <input
                         type="text"
                         inputMode="numeric"
@@ -248,7 +292,10 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
               </button>
 
               {message && (
-                <p className="quick-checkout-error" role="alert">
+                <p
+                  className="quick-checkout-error"
+                  role="alert"
+                >
                   {message}
                 </p>
               )}
