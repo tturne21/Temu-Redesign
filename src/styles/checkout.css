@@ -299,4 +299,37 @@
     max-width: none;
   }
 }
+
+/* for the loading screen/animations */
+.processing-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.processing-button:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+.order-spinner {
+  width: 18px;
   height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: checkout-spin 0.7s linear infinite;
+}
+
+@keyframes checkout-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-spinner {
+    animation: none;
+  }
+}
