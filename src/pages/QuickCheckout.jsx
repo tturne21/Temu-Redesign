@@ -13,6 +13,13 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
   const [message, setMessage] = useState('')
   const closeButtonRef = useRef(null)
 
+  const [isProcessing, setIsProcessing] = useState(false)
+  const processingTimer = useRef(null)
+
+  useEffect(() => {
+    return () => clearTimeout(processingTimer.current)
+  }, [])
+
   useEffect(() => {
     const previousFocus = document.activeElement
     const previousOverflow = document.body.style.overflow
@@ -42,8 +49,12 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     String(product.price).replace(/[^0-9.]/g, '')
   ) || 0
 
+  
   function handleSubmit(event) {
     event.preventDefault()
+
+    if (isProcessing) return
+
     setMessage('')
 
     if (!onPlaceOrder) {
@@ -51,10 +62,16 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
       return
     }
 
-    onPlaceOrder({
+    const order = {
       items,
       paymentMethod
-    })
+    }
+
+    setIsProcessing(true)
+
+    processingTimer.current = setTimeout(() => {
+      onPlaceOrder(order)
+    }, 1000)
   }
 
   return (
@@ -240,12 +257,19 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
             <div className="quick-checkout-summary">
               <OrderSummary items={items} />
 
-              <button
-                type="submit"
-                className="quick-checkout-place-order"
-              >
-                PLACE ORDER
-              </button>
+              
+                <button
+                  type="submit"
+                  className="quick-checkout-place-order processing-button"
+                  disabled={isProcessing}
+                  aria-busy={isProcessing}
+                >
+                  {isProcessing && (
+                    <span className="order-spinner" aria-hidden="true" />
+                  )}
+
+                  {isProcessing ? 'PROCESSING…' : 'PLACE ORDER'}
+                </button>
 
               {message && (
                 <p className="quick-checkout-error" role="alert">
