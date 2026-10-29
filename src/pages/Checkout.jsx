@@ -132,6 +132,62 @@ function Checkout({ items = [], onPlaceOrder }) {
                 </label>
               ))}
             </div>
+
+              {paymentMethod === 'card' && (
+                <div className="checkout-card-details">
+                  <h3>CARD DETAILS</h3>
+
+                  <div className="checkout-fields">
+                    <label className="checkout-field">
+                      <span>Cardholder Name</span>
+                      <input
+                        type="text"
+                        placeholder="Enter Cardholder Name"
+                        autoComplete="off"
+                        required
+                      />
+                    </label>
+
+                    <label className="checkout-field">
+                      <span>Credit/Debit Card Number</span>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="Enter Card Number"
+                        pattern="[0-9]{16}|[0-9]{4}( [0-9]{4}){3}"
+                        autoComplete="off"
+                        required
+                      />
+                    </label>
+                  </div>
+
+                  <div className="checkout-fields">
+                    <label className="checkout-field">
+                      <span>Expiration Date</span>
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+                        autoComplete="off"
+                        required
+                      />
+                    </label>
+
+                    <label className="checkout-field">
+                      <span>Test CVC</span>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="123"
+                        pattern="[0-9]{3,4}"
+                        autoComplete="off"
+                        required
+                      />
+                    </label>
+                  </div>
+                </div>
+              )}
+
           </section>
 
           <button
