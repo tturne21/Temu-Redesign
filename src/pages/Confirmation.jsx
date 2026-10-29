@@ -4,6 +4,8 @@ import '../styles/confirmation.css'
 function Confirmation({ onContinueShopping }) {
   return (
     <main className="confirmation-page">
+
+        
       <div className="confirmation-content">
 
         <div

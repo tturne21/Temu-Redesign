@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useRef, useEffect} from 'react'
 import OrderSummary from '../components/OrderSummary'
 import '../styles/checkout.css'
 
@@ -24,16 +24,31 @@ function Checkout({ items = [], onPlaceOrder }) {
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (onPlaceOrder) {
-      onPlaceOrder({
-        items,
-        paymentMethod,
-        customer: Object.fromEntries(
-          new FormData(event.currentTarget).entries()
-        )
-      })
+    if (isProcessing || !onPlaceOrder) return
+
+    const customer = Object.fromEntries(
+      new FormData(event.currentTarget).entries()
+    )
+
+    const order = {
+      items,
+      paymentMethod,
+      customer
     }
-  }
+
+    setIsProcessing(true)
+
+    processingTimer.current = setTimeout(() => {
+      onPlaceOrder(order)
+    }, 1000)
+}
+
+  const [isProcessing, setIsProcessing] = useState(false)
+  const processingTimer = useRef(null)
+
+  useEffect(() => {
+    return () => clearTimeout(processingTimer.current)
+    }, [])
 
   return (
     <main className="checkout-page">
@@ -119,8 +134,17 @@ function Checkout({ items = [], onPlaceOrder }) {
             </div>
           </section>
 
-          <button className="checkout-submit" type="submit">
-            PLACE ORDER
+          <button
+            type="submit"
+            className="checkout-submit processing-button "
+            disabled={isProcessing}
+            aria-busy={isProcessing}
+            >
+            {isProcessing && (
+              <span className="order-spinner" aria-hidden="true" />
+            )}
+
+            {isProcessing ? 'PROCESSING…' : 'PLACE ORDER'}
           </button>
         </form>
 
