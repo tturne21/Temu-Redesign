@@ -7,6 +7,7 @@ import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Confirmation from './pages/Confirmation'
 import QuickCheckout from './pages/QuickCheckout'
+import LoadingScreen from './components/LoadingScreen'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -176,14 +177,20 @@ function handleHome() {
     onClose={() => setQuickCheckoutProduct(null)}
     onPlaceOrder={() => {
       setQuickCheckoutProduct(null)
-      setCurrentPage('confirmation')
+      setCurrentPage('loading')
       window.scrollTo(0, 0)
     }}
   />
 )}
 
-
-
+{currentPage === 'loading' && (
+  <LoadingScreen
+    description="Processing your order"
+    duration={1200}
+    onComplete={() => setCurrentPage('confirmation')}
+    
+  />
+)}
 
 
 

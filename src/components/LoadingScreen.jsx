@@ -1,11 +1,31 @@
 
 import '../styles/loading-screen.css'
+import { useEffect, useRef } from 'react'
 
 function LoadingScreen({
   heading = '',
   message = 'LOADING...',
-  description = 'Please wait a moment'
+  description = 'Please wait a moment',
+  onComplete,
+  duration = 1200
+
 }) {
+
+    const completeRef = useRef(onComplete)
+
+useEffect(() => {
+  completeRef.current = onComplete
+}, [onComplete])
+
+useEffect(() => {
+  if (!completeRef.current) return
+
+  const timer = setTimeout(() => {
+    completeRef.current?.()
+  }, duration)
+
+  return () => clearTimeout(timer)
+}, [duration])
   return (
     <main className="loading-screen" role="status">
       {heading && (
@@ -16,7 +36,7 @@ function LoadingScreen({
 
       <div className="loading-screen__content">
         <img
-          src="/loading-icon.png"
+          src="src/assets/images/loading-icon.png"
           alt=""
           className="loading-screen__icon"
         />
