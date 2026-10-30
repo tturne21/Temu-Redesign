@@ -156,11 +156,16 @@ function SiteHeader({
             type="search"
             placeholder="Search products..."
             aria-controls="search-suggestions"
-            aria-expanded={suggestionsOpen && suggestions.length > 0}
+            aria-expanded={suggestionsOpen}
             value={searchText}
             onChange={(event) => {
-              setSearchText(event.target.value)
+              const nextSearchText = event.target.value
+              setSearchText(nextSearchText)
               setSuggestionsOpen(true)
+
+              if (!nextSearchText.trim() && searchText.trim()) {
+                onHome()
+              }
             }}
             onFocus={() => setSuggestionsOpen(true)}
           />
@@ -172,22 +177,33 @@ function SiteHeader({
           <div
             className="search-suggestions"
             id="search-suggestions"
-            hidden={!suggestionsOpen || suggestions.length === 0}
+            hidden={!suggestionsOpen}
             role="listbox"
             aria-label="Search suggestions"
           >
-            {suggestions.map((product) => (
-              <button
-                className="suggestion"
-                key={product.id}
-                type="button"
+            {suggestions.length > 0 ? (
+              suggestions.map((product) => (
+                <button
+                  className="suggestion"
+                  key={product.id}
+                  type="button"
+                  role="option"
+                  aria-selected="false"
+                  onClick={() => selectSuggestion(product)}
+                >
+                  {product.name}
+                </button>
+              ))
+            ) : (
+              <div
+                className="search-empty"
                 role="option"
-                aria-selected="false"
-                onClick={() => selectSuggestion(product)}
+                aria-disabled="true"
+                aria-live="polite"
               >
-                {product.name}
-              </button>
-            ))}
+                No products found
+              </div>
+            )}
           </div>
         </form>
 

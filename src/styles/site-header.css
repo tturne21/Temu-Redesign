@@ -146,6 +146,14 @@
   background: var(--background-secondary);
 }
 
+.search-empty {
+  padding: 12px 16px;
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+}
+
 .menu-toggle {
   display: none;
 

@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import OrderSummary from '../components/OrderSummary'
 import '../styles/checkout.css'
 
@@ -20,19 +20,30 @@ function CheckoutField({ label, id, placeholder, type = 'text' }) {
 
 function Checkout({ items = [], onPlaceOrder }) {
   const [paymentMethod, setPaymentMethod] = useState('card')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const submitTimerRef = useRef(null)
+
+  useEffect(() => () => window.clearTimeout(submitTimerRef.current), [])
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (onPlaceOrder) {
-      onPlaceOrder({
-        items,
-        paymentMethod,
-        customer: Object.fromEntries(
-          new FormData(event.currentTarget).entries()
-        )
-      })
+    if (!onPlaceOrder || isSubmitting) {
+      return
     }
+
+    const order = {
+      items,
+      paymentMethod,
+      customer: Object.fromEntries(
+        new FormData(event.currentTarget).entries()
+      )
+    }
+
+    setIsSubmitting(true)
+    submitTimerRef.current = window.setTimeout(() => {
+      onPlaceOrder(order)
+    }, 600)
   }
 
   return (
@@ -119,8 +130,20 @@ function Checkout({ items = [], onPlaceOrder }) {
             </div>
           </section>
 
-          <button className="checkout-submit" type="submit">
-            PLACE ORDER
+          <button
+            className="checkout-submit"
+            type="submit"
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+          >
+            {isSubmitting ? (
+              <span className="checkout-loading" role="status">
+                <span className="loading-spinner" aria-hidden="true" />
+                Placing order…
+              </span>
+            ) : (
+              'PLACE ORDER'
+            )}
           </button>
         </form>
 

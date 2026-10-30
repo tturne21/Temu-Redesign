@@ -20,7 +20,10 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
   )
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const closeButtonRef = useRef(null)
+  const isSubmittingRef = useRef(false)
+  const submitTimerRef = useRef(null)
 
   useEffect(() => {
     const previousFocus = document.activeElement
@@ -31,7 +34,9 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
-        onClose?.()
+        if (!isSubmittingRef.current) {
+          onClose?.()
+        }
       }
     }
 
@@ -43,6 +48,8 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
       previousFocus?.focus?.()
     }
   }, [onClose])
+
+  useEffect(() => () => window.clearTimeout(submitTimerRef.current), [])
 
   if (!product) {
     return null
@@ -69,15 +76,25 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     event.preventDefault()
     setMessage('')
 
+    if (isSubmitting) {
+      return
+    }
+
     if (!onPlaceOrder) {
       setMessage('Checkout is not connected yet.')
       return
     }
 
-    onPlaceOrder({
+    const order = {
       items,
       paymentMethod,
-    })
+    }
+
+    isSubmittingRef.current = true
+    setIsSubmitting(true)
+    submitTimerRef.current = window.setTimeout(() => {
+      onPlaceOrder(order)
+    }, 600)
   }
 
   return (
@@ -85,7 +102,9 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
       className="quick-checkout-overlay"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
-          onClose?.()
+          if (!isSubmitting) {
+            onClose?.()
+          }
         }
       }}
     >
@@ -100,6 +119,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
           type="button"
           className="quick-checkout-close"
           aria-label="Close quick checkout"
+          disabled={isSubmitting}
           onClick={() => onClose?.()}
         >
           ×
@@ -287,8 +307,17 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
               <button
                 type="submit"
                 className="quick-checkout-place-order"
+                disabled={isSubmitting}
+                aria-busy={isSubmitting}
               >
-                PLACE ORDER
+                {isSubmitting ? (
+                  <span className="checkout-loading" role="status">
+                    <span className="loading-spinner" aria-hidden="true" />
+                    Placing order…
+                  </span>
+                ) : (
+                  'PLACE ORDER'
+                )}
               </button>
 
               {message && (
