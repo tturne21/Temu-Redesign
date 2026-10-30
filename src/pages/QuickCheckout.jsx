@@ -260,14 +260,11 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
               
                 <button
                   type="submit"
-                  className="quick-checkout-place-order processing-button"
+                  className="quick-checkout-place-order"
                   disabled={isProcessing}
                   aria-busy={isProcessing}
                 >
-                  {isProcessing && (
-                    <span className="order-spinner" aria-hidden="true" />
-                  )}
-
+                
                   {isProcessing ? 'PROCESSING…' : 'PLACE ORDER'}
                 </button>
 
