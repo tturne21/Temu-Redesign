@@ -185,7 +185,7 @@ function handleHome() {
 
 {currentPage === 'loading' && (
   <LoadingScreen
-    description="Processing your order"
+    description="Processing your order..."
     duration={1200}
     onComplete={() => setCurrentPage('confirmation')}
     
