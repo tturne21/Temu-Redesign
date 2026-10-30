@@ -159,7 +159,7 @@ function handleHome() {
   <Checkout
     items={cartItems}
     onPlaceOrder={() => {
-      setCurrentPage('confirmation')
+      setCurrentPage('loading')
       window.scrollTo(0, 0)
     }}
   />

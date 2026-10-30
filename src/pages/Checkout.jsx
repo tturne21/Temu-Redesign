@@ -38,10 +38,9 @@ function Checkout({ items = [], onPlaceOrder }) {
 
     setIsProcessing(true)
 
-    processingTimer.current = setTimeout(() => {
-      onPlaceOrder(order)
-    }, 1000)
-}
+    onPlaceOrder(order)
+
+  }
 
   const [isProcessing, setIsProcessing] = useState(false)
   const processingTimer = useRef(null)
@@ -192,15 +191,10 @@ function Checkout({ items = [], onPlaceOrder }) {
 
           <button
             type="submit"
-            className="checkout-submit processing-button "
+            className="checkout-submit"
             disabled={isProcessing}
-            aria-busy={isProcessing}
             >
-            {isProcessing && (
-              <span className="order-spinner" aria-hidden="true" />
-            )}
-
-            {isProcessing ? 'PROCESSING…' : 'PLACE ORDER'}
+            PLACE ORDER
           </button>
         </form>
 
