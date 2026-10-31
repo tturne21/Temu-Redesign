@@ -243,3 +243,135 @@
     padding: 16px;
   }
 }
+
+
+/* Assignment 11 - Cart micro-interactions */
+
+@keyframes cartQuantityPop {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.22);
+    color: #ff6a00;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-quantity-pop {
+  display: inline-block;
+  animation: cartQuantityPop 0.3s ease-out;
+}
+
+.cart-item {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cart-item-removing {
+  opacity: 0;
+  transform: translateX(18px);
+  pointer-events: none;
+}
+
+.cart-feedback {
+  min-height: 0;
+  color: #16803c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cart-feedback:not(:empty) {
+  padding: 12px 0;
+  animation: cartFeedbackIn 0.25s ease-out;
+}
+
+@keyframes cartFeedbackIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cart-quantity button,
+.cart-remove {
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.cart-quantity button:not(:disabled):active,
+.cart-remove:not(:disabled):active {
+  transform: scale(0.94);
+}
+
+.cart-quantity button:disabled,
+.cart-remove:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+[data-theme="dark"] .cart-feedback {
+  color: #73e5a0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-quantity-pop,
+  .cart-feedback:not(:empty) {
+    animation: none;
+  }
+
+  .cart-item,
+  .cart-quantity button,
+  .cart-remove {
+    transition: none;
+  }
+}
+
+/* Assignment 11 - Add to Cart Success Notification */
+
+.add-cart-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  z-index: 9999;
+  transform: translateX(-50%);
+  background-color: #16803c;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  max-width: calc(100vw - 32px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  animation: cartToastAppear 0.3s ease-out;
+}
+
+@keyframes cartToastAppear {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-cart-toast {
+    animation: none;
+  }
+}

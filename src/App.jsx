@@ -1,4 +1,7 @@
-import { useState } from 'react'
+
+
+import './styles/cart.css'
+import { useEffect, useState } from 'react'
 import SiteHeader from './components/SiteHeader'
 import Home from './pages/Home'
 import { allProducts } from './data/products'
@@ -16,6 +19,18 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
+  const [cartMessage, setCartMessage] = useState('')
+
+useEffect(() => {
+  if (!cartMessage) return
+
+  const timer = setTimeout(() => {
+    setCartMessage('')
+  }, 3000)
+
+  return () => clearTimeout(timer)
+}, [cartMessage])
+
 
   function toggleTheme() {
     setDarkMode((currentMode) => !currentMode)
@@ -43,6 +58,7 @@ function App() {
 
       return [...previousItems, product]
     })
+    setCartMessage(`${product.name} added to cart!`)
   }
 
   function handleUpdateQuantity(productId, color, newQuantity) {
@@ -134,6 +150,17 @@ function App() {
 
   return (
     <div data-theme={darkMode ? 'dark' : 'light'}>
+
+{cartMessage && (
+  <div
+    className="add-cart-toast"
+    role="status"
+    aria-live="polite"
+  >
+    ✓ {cartMessage}
+  </div>
+)}
+
       <SiteHeader
         products={allProducts}
         selectedCategory={selectedCategory}
