@@ -1,4 +1,6 @@
 
+
+import { useEffect, useRef, useState } from 'react'
 import '../styles/cart.css'
 
 function Cart({
@@ -7,6 +9,26 @@ function Cart({
   onRemove,
   onCheckout
 }) {
+  const [animatingItem, setAnimatingItem] = useState(null)
+  const [removingItem, setRemovingItem] = useState(null)
+  const [feedback, setFeedback] = useState('')
+
+  const timers = useRef([])
+
+  useEffect(() => {
+    return () => {
+      timers.current.forEach(clearTimeout)
+    }
+  }, [])
+
+  const schedule = (callback, delay) => {
+    const timer = setTimeout(callback, delay)
+    timers.current.push(timer)
+  }
+
+  const getItemKey = (item) =>
+    `${item.id}-${item.color || 'default'}`
+
   const getPrice = (price) =>
     Number(String(price).replace('$', '')) || 0
 
@@ -21,9 +43,54 @@ function Cart({
     0
   )
 
+  const handleQuantityChange = (item, change) => {
+    const itemKey = getItemKey(item)
+
+    if (change < 0 && item.quantity <= 1) return
+
+    setAnimatingItem(null)
+
+    onUpdateQuantity?.(
+      item.id,
+      item.color,
+      item.quantity + change
+    )
+
+    schedule(() => setAnimatingItem(itemKey), 0)
+    schedule(() => {
+      setAnimatingItem((current) =>
+        current === itemKey ? null : current
+      )
+    }, 350)
+  }
+
+  const handleRemove = (item) => {
+    const itemKey = getItemKey(item)
+
+    if (removingItem !== null) return
+
+    setRemovingItem(itemKey)
+
+    schedule(() => {
+      onRemove?.(item.id, item.color)
+      setRemovingItem(null)
+      setFeedback(`${item.name} removed from cart`)
+    }, 250)
+
+    schedule(() => setFeedback(''), 3500)
+  }
+
   return (
     <main className="cart-page">
       <h1>Cart</h1>
+
+      <div
+        className="cart-feedback"
+        role="status"
+        aria-live="polite"
+      >
+        {feedback}
+      </div>
 
       {items.length === 0 ? (
         <div className="cart-empty">
@@ -33,72 +100,85 @@ function Cart({
       ) : (
         <div className="cart-layout">
           <section className="cart-items">
-            {items.map((item) => (
-              <article
-                className="cart-item"
-                key={`${item.id}-${item.color || 'default'}`}
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="cart-item-image"
-                />
+            {items.map((item) => {
+              const itemKey = getItemKey(item)
 
-                <div className="cart-item-info">
-                  <h2>{item.name}</h2>
+              return (
+                <article
+                  className={`cart-item ${
+                    removingItem === itemKey
+                      ? 'cart-item-removing'
+                      : ''
+                  }`}
+                  key={itemKey}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="cart-item-image"
+                  />
 
-                  {item.color && (
-                    <p>Color: {item.color}</p>
-                  )}
+                  <div className="cart-item-info">
+                    <h2>{item.name}</h2>
 
-                  <p className="cart-price">
-                    ${getPrice(item.price).toFixed(2)}
-                  </p>
+                    {item.color && (
+                      <p>Color: {item.color}</p>
+                    )}
 
-                  <div className="cart-quantity">
+                    <p className="cart-price">
+                      ${getPrice(item.price).toFixed(2)}
+                    </p>
+
+                    <div className="cart-quantity">
+                      <button
+                        type="button"
+                        aria-label={`Decrease ${item.name} quantity`}
+                        disabled={item.quantity <= 1 || removingItem !== null}
+                        onClick={() =>
+                          handleQuantityChange(item, -1)
+                        }
+                      >
+                        -
+                      </button>
+
+                      <span
+                        key={`${itemKey}-${item.quantity}`}
+                        className={
+                          animatingItem === itemKey
+                            ? 'cart-quantity-pop'
+                            : ''
+                        }
+                        aria-live="polite"
+                      >
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        type="button"
+                        aria-label={`Increase ${item.name} quantity`}
+                        disabled={removingItem !== null}
+                        onClick={() =>
+                          handleQuantityChange(item, 1)
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+
                     <button
                       type="button"
-                      aria-label={`Decrease ${item.name} quantity`}
-                      onClick={() =>
-                        onUpdateQuantity?.(
-                          item.id,
-                          item.color,
-                          item.quantity - 1
-                        )
-                      }
+                      className="cart-remove"
+                      disabled={removingItem !== null}
+                      onClick={() => handleRemove(item)}
                     >
-                      −
-                    </button>
-
-                    <span>{item.quantity}</span>
-
-                    <button
-                      type="button"
-                      aria-label={`Increase ${item.name} quantity`}
-                      onClick={() =>
-                        onUpdateQuantity?.(
-                          item.id,
-                          item.color,
-                          item.quantity + 1
-                        )
-                      }
-                    >
-                      +
+                      {removingItem === itemKey
+                        ? 'Removing...'
+                        : 'Remove'}
                     </button>
                   </div>
-
-                  <button
-                    type="button"
-                    className="cart-remove"
-                    onClick={() =>
-                      onRemove?.(item.id, item.color)
-                    }
-                  >
-                    Remove
-                  </button>
-                </div>
-              </article>
-            ))}
+                </article>
+              )
+            })}
           </section>
 
           <aside className="cart-summary">
