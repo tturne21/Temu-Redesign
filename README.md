@@ -7,6 +7,7 @@ This project is a responsive redesign of the Temu website created using React, V
 - Responsive mobile and desktop layouts
 - Product search with real-time suggestions and no-results feedback
 - Loading feedback while placing an order
+- Smooth product card and button hover animations
 - Product category navigation
 - Product details
 - Product color and quantity selection
