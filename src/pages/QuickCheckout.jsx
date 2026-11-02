@@ -21,6 +21,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
   const closeButtonRef = useRef(null)
   const isSubmittingRef = useRef(false)
   const submitTimerRef = useRef(null)
@@ -33,10 +34,11 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     closeButtonRef.current?.focus()
 
     function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        if (!isSubmittingRef.current) {
-          onClose?.()
-        }
+      if (
+        event.key === 'Escape' &&
+        !isSubmittingRef.current
+      ) {
+        onClose?.()
       }
     }
 
@@ -49,7 +51,11 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     }
   }, [onClose])
 
-  useEffect(() => () => window.clearTimeout(submitTimerRef.current), [])
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(submitTimerRef.current)
+    }
+  }, [])
 
   if (!product) {
     return null
@@ -92,6 +98,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
 
     isSubmittingRef.current = true
     setIsSubmitting(true)
+
     submitTimerRef.current = window.setTimeout(() => {
       onPlaceOrder(order)
     }, 600)
@@ -101,10 +108,11 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     <div
       className="quick-checkout-overlay"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          if (!isSubmitting) {
-            onClose?.()
-          }
+        if (
+          event.target === event.currentTarget &&
+          !isSubmitting
+        ) {
+          onClose?.()
         }
       }}
     >
@@ -164,6 +172,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                           color === option ? 'selected' : ''
                         }
                         aria-pressed={color === option}
+                        disabled={isSubmitting}
                         onClick={() => setColor(option)}
                       >
                         {option}
@@ -180,7 +189,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                   <button
                     type="button"
                     aria-label="Decrease quantity"
-                    disabled={quantity === 1}
+                    disabled={quantity === 1 || isSubmitting}
                     onClick={() =>
                       setQuantity((current) =>
                         Math.max(1, current - 1)
@@ -195,6 +204,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                   <button
                     type="button"
                     aria-label="Increase quantity"
+                    disabled={isSubmitting}
                     onClick={() =>
                       setQuantity((current) => current + 1)
                     }
@@ -235,6 +245,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                     name="quickPayment"
                     value={method.value}
                     checked={paymentMethod === method.value}
+                    disabled={isSubmitting}
                     onChange={() =>
                       setPaymentMethod(method.value)
                     }
@@ -255,6 +266,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                       type="text"
                       placeholder="Enter Name"
                       autoComplete="off"
+                      disabled={isSubmitting}
                       required
                     />
                   </label>
@@ -267,6 +279,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                       placeholder="Enter Card Number"
                       inputMode="numeric"
                       pattern="[0-9 ]{16}"
+                      disabled={isSubmitting}
                       required
                     />
                   </label>
@@ -280,6 +293,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                         placeholder="MM/YY"
                         autoComplete="off"
                         pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+                        disabled={isSubmitting}
                         required
                       />
                     </label>
@@ -293,6 +307,7 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                         placeholder="123"
                         autoComplete="off"
                         pattern="[0-9]{3,4}"
+                        disabled={isSubmitting}
                         required
                       />
                     </label>
@@ -311,9 +326,15 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                 aria-busy={isSubmitting}
               >
                 {isSubmitting ? (
-                  <span className="checkout-loading" role="status">
-                    <span className="loading-spinner" aria-hidden="true" />
-                    Placing order…
+                  <span
+                    className="checkout-loading"
+                    role="status"
+                  >
+                    <span
+                      className="loading-spinner"
+                      aria-hidden="true"
+                    />
+                    PROCESSING...
                   </span>
                 ) : (
                   'PLACE ORDER'

@@ -1,5 +1,3 @@
-
-
 import './styles/cart.css'
 import { useEffect, useState } from 'react'
 import SiteHeader from './components/SiteHeader'
@@ -10,6 +8,7 @@ import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Confirmation from './pages/Confirmation'
 import QuickCheckout from './pages/QuickCheckout'
+import LoadingScreen from './components/LoadingScreen'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -21,16 +20,15 @@ function App() {
   const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
   const [cartMessage, setCartMessage] = useState('')
 
-useEffect(() => {
-  if (!cartMessage) return
+  useEffect(() => {
+    if (!cartMessage) return
 
-  const timer = setTimeout(() => {
-    setCartMessage('')
-  }, 3000)
+    const timer = setTimeout(() => {
+      setCartMessage('')
+    }, 3000)
 
-  return () => clearTimeout(timer)
-}, [cartMessage])
-
+    return () => clearTimeout(timer)
+  }, [cartMessage])
 
   function toggleTheme() {
     setDarkMode((currentMode) => !currentMode)
@@ -58,6 +56,7 @@ useEffect(() => {
 
       return [...previousItems, product]
     })
+
     setCartMessage(`${product.name} added to cart!`)
   }
 
@@ -132,8 +131,13 @@ useEffect(() => {
     window.scrollTo(0, 0)
   }
 
-  function completeOrder() {
+  function startOrderProcessing() {
     setQuickCheckoutProduct(null)
+    setCurrentPage('loading')
+    window.scrollTo(0, 0)
+  }
+
+  function finishOrderProcessing() {
     setCurrentPage('confirmation')
     window.scrollTo(0, 0)
   }
@@ -150,16 +154,15 @@ useEffect(() => {
 
   return (
     <div data-theme={darkMode ? 'dark' : 'light'}>
-
-{cartMessage && (
-  <div
-    className="add-cart-toast"
-    role="status"
-    aria-live="polite"
-  >
-    ✓ {cartMessage}
-  </div>
-)}
+      {cartMessage && (
+        <div
+          className="add-cart-toast"
+          role="status"
+          aria-live="polite"
+        >
+          ✓ {cartMessage}
+        </div>
+      )}
 
       <SiteHeader
         products={allProducts}
@@ -202,7 +205,15 @@ useEffect(() => {
       {currentPage === 'checkout' && (
         <Checkout
           items={cartItems}
-          onPlaceOrder={completeOrder}
+          onPlaceOrder={startOrderProcessing}
+        />
+      )}
+
+      {currentPage === 'loading' && (
+        <LoadingScreen
+          description="Processing your order..."
+          duration={1200}
+          onComplete={finishOrderProcessing}
         />
       )}
 
@@ -216,7 +227,7 @@ useEffect(() => {
         <QuickCheckout
           product={quickCheckoutProduct}
           onClose={() => setQuickCheckoutProduct(null)}
-          onPlaceOrder={completeOrder}
+          onPlaceOrder={startOrderProcessing}
         />
       )}
     </div>

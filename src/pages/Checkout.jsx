@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react'
 import OrderSummary from '../components/OrderSummary'
 import '../styles/checkout.css'
@@ -23,7 +22,11 @@ function Checkout({ items = [], onPlaceOrder }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const submitTimerRef = useRef(null)
 
-  useEffect(() => () => window.clearTimeout(submitTimerRef.current), [])
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(submitTimerRef.current)
+    }
+  }, [])
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -37,10 +40,11 @@ function Checkout({ items = [], onPlaceOrder }) {
       paymentMethod,
       customer: Object.fromEntries(
         new FormData(event.currentTarget).entries()
-      )
+      ),
     }
 
     setIsSubmitting(true)
+
     submitTimerRef.current = window.setTimeout(() => {
       onPlaceOrder(order)
     }, 600)
@@ -52,7 +56,6 @@ function Checkout({ items = [], onPlaceOrder }) {
 
       <div className="checkout-layout">
         <form className="checkout-form" onSubmit={handleSubmit}>
-
           <section className="checkout-section">
             <h2>CONTACT INFORMATION</h2>
 
@@ -111,7 +114,7 @@ function Checkout({ items = [], onPlaceOrder }) {
               {[
                 { value: 'card', label: 'Credit / Debit Card' },
                 { value: 'paypal', label: 'PayPal' },
-                { value: 'applepay', label: 'Apple Pay' }
+                { value: 'applepay', label: 'Apple Pay' },
               ].map((method) => (
                 <label
                   className="checkout-payment-option"
@@ -122,12 +125,73 @@ function Checkout({ items = [], onPlaceOrder }) {
                     name="paymentMethod"
                     value={method.value}
                     checked={paymentMethod === method.value}
-                    onChange={() => setPaymentMethod(method.value)}
+                    onChange={() =>
+                      setPaymentMethod(method.value)
+                    }
                   />
                   <span>{method.label}</span>
                 </label>
               ))}
             </div>
+
+            {paymentMethod === 'card' && (
+              <div className="checkout-card-details">
+                <h3>CARD DETAILS</h3>
+
+                <div className="checkout-fields">
+                  <label className="checkout-field">
+                    <span>Cardholder Name</span>
+                    <input
+                      type="text"
+                      name="cardholderName"
+                      placeholder="Enter Cardholder Name"
+                      autoComplete="off"
+                      required
+                    />
+                  </label>
+
+                  <label className="checkout-field">
+                    <span>Credit/Debit Card Number</span>
+                    <input
+                      type="text"
+                      name="cardNumber"
+                      inputMode="numeric"
+                      placeholder="Enter Card Number"
+                      pattern="[0-9]{16}|[0-9]{4}( [0-9]{4}){3}"
+                      autoComplete="off"
+                      required
+                    />
+                  </label>
+                </div>
+
+                <div className="checkout-fields">
+                  <label className="checkout-field">
+                    <span>Expiration Date</span>
+                    <input
+                      type="text"
+                      name="expirationDate"
+                      placeholder="MM/YY"
+                      pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+                      autoComplete="off"
+                      required
+                    />
+                  </label>
+
+                  <label className="checkout-field">
+                    <span>Test CVC</span>
+                    <input
+                      type="text"
+                      name="cvc"
+                      inputMode="numeric"
+                      placeholder="123"
+                      pattern="[0-9]{3,4}"
+                      autoComplete="off"
+                      required
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
           </section>
 
           <button
@@ -138,8 +202,11 @@ function Checkout({ items = [], onPlaceOrder }) {
           >
             {isSubmitting ? (
               <span className="checkout-loading" role="status">
-                <span className="loading-spinner" aria-hidden="true" />
-                Placing order…
+                <span
+                  className="loading-spinner"
+                  aria-hidden="true"
+                />
+                PROCESSING...
               </span>
             ) : (
               'PLACE ORDER'
