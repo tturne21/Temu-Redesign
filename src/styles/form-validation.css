@@ -1,0 +1,63 @@
+
+/* Invalid input fields */
+.form-input-error {
+  border: 1px solid var(--status-error) !important;
+  outline-color: var(--status-error);
+}
+
+/* Error message below an input */
+.form-error-message {
+  display: block;
+  margin-top: 4px;
+  color: var(--status-error);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Valid input fields */
+.form-input-success {
+  border: 1px solid var(--status-success) !important;
+}
+
+/* Success message below an input */
+.form-success-message {
+  display: block;
+  margin-top: 4px;
+  color: var(--status-success);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* General form guidance */
+.form-guidance {
+  margin: 8px 0;
+  padding: 12px;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-medium);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Form-level error feedback */
+.form-feedback-error {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--status-error);
+  border-radius: var(--radius-medium);
+  color: var(--status-error);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Form-level success feedback */
+.form-feedback-success {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--status-success);
+  border-radius: var(--radius-medium);
+  color: var(--status-success);
+  font-size: 13px;
+  line-height: 1.5;
+}
