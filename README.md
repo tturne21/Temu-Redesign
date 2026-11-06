@@ -81,3 +81,35 @@ The completed build will be created in the `dist` folder.
 - Charles Foote
 - Nour Eltair
 - Tre'on Russell
+
+## Shared Checkout Validation (Charles)
+
+Import the named helpers from `src/utils/validation.js` in either checkout form:
+
+```js
+import { validateRequired, validateEmail, validateCardNumber,
+  validateExpiration, validateCVC, validateZipCode } from '../utils/validation'
+
+const emailError = validateEmail(email)
+const nameError = validateRequired(fullName, 'Full name')
+```
+
+Every helper returns an empty string (`''`) for valid input or a specific,
+user-facing error message for invalid input. All six helpers reject blank values
+and trim surrounding whitespace. Keep input values as strings to preserve leading
+zeros in ZIP codes and CVCs.
+
+- `validateRequired(value, label = 'This field')`: required names, addresses, city, or state.
+- `validateEmail(value)`: email with a local part and dotted domain.
+- `validateCardNumber(value)`: 16 digits, unspaced or grouped as `1234 5678 9012 3456`, matching the regular checkout format. Checks format only.
+- `validateExpiration(value, referenceDate = new Date())`: `MM/YY`, interpreted as 2000-2099, with the current month still valid.
+- `validateCVC(value)`: three or four digits.
+- `validateZipCode(value)`: US five-digit ZIP or ZIP+4 (`12345-6789`).
+
+For Nour and Tre'on: call these helpers after blur or a submission attempt, then
+revalidate affected fields on change so corrected errors clear. Skip card checks
+when another payment method is selected. Use the returned messages for inline
+errors and block submission while any applicable error remains. The helpers do
+not track interaction state, change styling, or verify payment credentials.
+
+Run the validation checks with `node --test tests/validation.test.js`.
