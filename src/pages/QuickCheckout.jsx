@@ -3,6 +3,16 @@ import OrderSummary from '../components/OrderSummary'
 import '../styles/checkout.css'
 import '../styles/quick-checkout.css'
 
+import {
+  validateRequired,
+  validateCardNumber,
+  validateExpiration,
+  validateCVC
+} from '../utils/validation'
+
+import '../styles/form-validation.css'
+
+
 function QuickCheckout({ product, onClose, onPlaceOrder }) {
   const availableColors = product?.colorImages
     ? Object.keys(product.colorImages)
@@ -21,6 +31,54 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+const [cardFields, setCardFields] = useState({
+  cardholder: '',
+  cardNumber: '',
+  expiration: '',
+  cvc: ''
+})
+
+const [fieldErrors, setFieldErrors] = useState({})
+const [touchedFields, setTouchedFields] = useState({})
+
+const validators = {
+  cardholder: (value) => validateRequired(value, 'Cardholder name'),
+  cardNumber: validateCardNumber,
+  expiration: validateExpiration,
+  cvc: validateCVC
+}
+
+function handleCardFieldChange(event) {
+  const { name, value } = event.target
+
+  setCardFields((previous) => ({
+    ...previous,
+    [name]: value
+  }))
+
+  if (touchedFields[name]) {
+    setFieldErrors((previous) => ({
+      ...previous,
+      [name]: validators[name](value)
+    }))
+  }
+}
+
+function handleCardFieldBlur(event) {
+  const { name, value } = event.target
+
+  setTouchedFields((previous) => ({
+    ...previous,
+    [name]: true
+  }))
+
+  setFieldErrors((previous) => ({
+    ...previous,
+    [name]: validators[name](value)
+  }))
+}
+
 
   const closeButtonRef = useRef(null)
   const isSubmittingRef = useRef(false)
@@ -82,6 +140,30 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
     event.preventDefault()
     setMessage('')
 
+if (paymentMethod === 'card') {
+  const errors = {
+    cardholder: validators.cardholder(cardFields.cardholder),
+    cardNumber: validators.cardNumber(cardFields.cardNumber),
+    expiration: validators.expiration(cardFields.expiration),
+    cvc: validators.cvc(cardFields.cvc)
+  }
+
+  setFieldErrors(errors)
+
+  setTouchedFields({
+    cardholder: true,
+    cardNumber: true,
+    expiration: true,
+    cvc: true
+  })
+
+  if (Object.values(errors).some(Boolean)) {
+    setMessage('Please correct the highlighted payment fields before placing your order.')
+    return
+  }
+}
+
+
     if (isSubmitting) {
       return
     }
@@ -140,7 +222,9 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
           QUICK CHECKOUT
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        
+<form onSubmit={handleSubmit} noValidate>
+
           <div className="quick-checkout-product">
             <img
               className="quick-checkout-image"
@@ -262,54 +346,132 @@ function QuickCheckout({ product, onClose, onPlaceOrder }) {
                   <label>
                     Cardholder Name
 
-                    <input
-                      type="text"
-                      placeholder="Enter Name"
-                      autoComplete="off"
-                      disabled={isSubmitting}
-                      required
-                    />
+                   
+<input
+  type="text"
+  name="cardholder"
+
+className={fieldErrors.cardholder ? 'form-input-error' : ''}
+
+  placeholder="Enter Name"
+  autoComplete="off"
+  value={cardFields.cardholder}
+  onChange={handleCardFieldChange}
+  onBlur={handleCardFieldBlur}
+  aria-invalid={Boolean(fieldErrors.cardholder)}
+  aria-describedby={fieldErrors.cardholder ? 'cardholder-error' : undefined}
+  disabled={isSubmitting}
+  required
+/>
+{fieldErrors.cardholder && (
+  <span
+    id="cardholder-error"
+    className="form-error-message"
+    role="alert"
+  >
+    {fieldErrors.cardholder}
+  </span>
+)}
+
                   </label>
 
                   <label>
                     Credit/Debit Card Number
 
-                    <input
-                      type="text"
-                      placeholder="Enter Card Number"
-                      inputMode="numeric"
-                      pattern="[0-9 ]{16}"
-                      disabled={isSubmitting}
-                      required
-                    />
+                   
+<input
+  type="text"
+  name="cardNumber"
+
+className={fieldErrors.cardNumber ? 'form-input-error' : ''}
+
+  placeholder="Enter Card Number"
+  inputMode="numeric"
+  value={cardFields.cardNumber}
+  onChange={handleCardFieldChange}
+  onBlur={handleCardFieldBlur}
+  aria-invalid={Boolean(fieldErrors.cardNumber)}
+  aria-describedby={fieldErrors.cardNumber ? 'card-number-error' : undefined}
+  disabled={isSubmitting}
+  required
+/>
+{fieldErrors.cardNumber && (
+  <span
+    id="card-number-error"
+    className="form-error-message"
+    role="alert"
+  >
+    {fieldErrors.cardNumber}
+  </span>
+)}
+
                   </label>
 
                   <div className="quick-checkout-card-row">
                     <label>
                       Card Expiration Date
 
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        autoComplete="off"
-                        pattern="(0[1-9]|1[0-2])/[0-9]{2}"
-                        disabled={isSubmitting}
-                        required
-                      />
+                      
+<input
+  type="text"
+  name="expiration"
+
+className={fieldErrors.expiration ? 'form-input-error' : ''}
+
+  placeholder="MM/YY"
+  autoComplete="off"
+  inputMode="numeric"
+  value={cardFields.expiration}
+  onChange={handleCardFieldChange}
+  onBlur={handleCardFieldBlur}
+  aria-invalid={Boolean(fieldErrors.expiration)}
+  aria-describedby={fieldErrors.expiration ? 'expiration-error' : undefined}
+  disabled={isSubmitting}
+  required
+/>
+{fieldErrors.expiration && (
+  <span
+    id="expiration-error"
+   className="form-error-message"
+    role="alert"
+  >
+    {fieldErrors.expiration}
+  </span>
+)}
+
                     </label>
 
                     <label>
                       Test CVC
 
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="123"
-                        autoComplete="off"
-                        pattern="[0-9]{3,4}"
-                        disabled={isSubmitting}
-                        required
-                      />
+                      
+<input
+  type="text"
+  name="cvc"
+
+className={fieldErrors.cvc ? 'form-input-error' : ''}
+
+  inputMode="numeric"
+  placeholder="123"
+  autoComplete="off"
+  value={cardFields.cvc}
+  onChange={handleCardFieldChange}
+  onBlur={handleCardFieldBlur}
+  aria-invalid={Boolean(fieldErrors.cvc)}
+  aria-describedby={fieldErrors.cvc ? 'cvc-error' : undefined}
+  disabled={isSubmitting}
+  required
+/>
+{fieldErrors.cvc && (
+  <span
+    id="cvc-error"
+    className="form-error-message"
+    role="alert"
+  >
+    {fieldErrors.cvc}
+  </span>
+)}
+
                     </label>
                   </div>
                 </div>
