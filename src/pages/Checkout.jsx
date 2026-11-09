@@ -173,15 +173,36 @@ function Checkout({ items = [], onPlaceOrder }) {
       }
     }
   }
-  
+
   function handleSubmit(event) {
     event.preventDefault()
 
-    if (isProcessing || !onPlaceOrder) return
+    //if (isProcessing || !onPlaceOrder) return
 
-    const customer = Object.fromEntries(
-      new FormData(event.currentTarget).entries()
-    )
+    if (isProcessing) return
+
+    setAttemptedSubmit(true)
+    setConnectionError('')
+
+    if (hasErrors) {
+      document.getElementById(invalidFields[0])?.focus()
+      return
+    }
+
+    if (!onPlaceOrder) {
+      setConnectionError('Checkout is not connected yet.')
+      return
+    }
+
+
+    const customer = {
+      email: values.email.trim(),
+      fullName: values.fullName.trim(),
+      address: values.address.trim(),
+      city: values.city.trim(),
+      state: values.state.trim(),
+      zip: values.zip.trim()
+    }
 
     const order = {
       items,
