@@ -48,20 +48,72 @@ const cardFields = [
   'cardholderName', 'cardNumber', 'expirationDate', 'cvc'
 ]
 
-function CheckoutField({ label, id, placeholder, type = 'text' }) {
-  return (
+// updated checkoutField function that will work with the new validation forms
+function CheckoutField({
+  label,
+  id,
+  placeholder,
+  type = 'text',
+  inputMode,
+  autoComplete,
+  value,
+  onChange,
+  onBlur,
+  error,
+  showFeedback
+}) {
+  const hasError = showFeedback && Boolean(error)
+  const isValid = showFeedback && !error
+
+ return (
     <label className="checkout-field" htmlFor={id}>
       <span>{label}</span>
+
       <input
         id={id}
-        name={id}
+        name={shippingFields.includes(id) ? id : undefined}
         type={type}
         placeholder={placeholder}
-        required
+
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        aria-invalid={hasError}
+        aria-describedby={
+          showFeedback ? `${id}-feedback` : undefined
+        }
+        className={
+          hasError
+            ? 'form-input-error'
+            : isValid
+              ? 'form-input-success'
+              : ''
+        }
       />
+      
+      {hasError && (
+        <small
+          id={`${id}-feedback`}
+          className="form-error-message"
+        >
+          {error}
+        </small>
+      )}
+
+      {isValid && (
+        <small
+          id={`${id}-feedback`}
+          className="form-success-message"
+        >
+          Done!
+        </small>
+      )}
     </label>
   )
 }
+
 
 function Checkout({ items = [], onPlaceOrder }) {
   const [paymentMethod, setPaymentMethod] = useState('card')
