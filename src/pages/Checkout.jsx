@@ -118,6 +118,62 @@ function CheckoutField({
 function Checkout({ items = [], onPlaceOrder }) {
   const [paymentMethod, setPaymentMethod] = useState('card')
 
+  const [values, setValues] = useState(initialValues)
+  const [touched, setTouched] = useState({})
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false)
+  const [connectionError, setConnectionError] = useState('')
+
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  
+
+  const activeFields = paymentMethod === 'card'
+    ? [...shippingFields, ...cardFields]
+    : shippingFields
+
+  const invalidFields = activeFields.filter((id) =>
+    Boolean(validators[id](values[id]))
+  )
+
+  const hasErrors = invalidFields.length > 0
+  /*
+  const processingTimer = useRef(null)
+
+  useEffect(() => {
+    return () => clearTimeout(processingTimer.current)
+    }, [])
+ 
+  */
+
+    function getFieldProps(id) {
+    return {
+      value: values[id],
+      error: validators[id](values[id]),
+      showFeedback: Boolean(touched[id] || attemptedSubmit),
+
+      onChange: (event) => {
+        const nextValue = event.target.value
+
+        setValues((current) => ({
+          ...current,
+          [id]: nextValue
+        }))
+
+        setTouched((current) => ({
+          ...current,
+          [id]: true
+        }))
+      },
+
+      onBlur: () => {
+        setTouched((current) => ({
+          ...current,
+          [id]: true
+        }))
+      }
+    }
+  }
+  
   function handleSubmit(event) {
     event.preventDefault()
 
@@ -138,13 +194,6 @@ function Checkout({ items = [], onPlaceOrder }) {
     onPlaceOrder(order)
 
   }
-
-  const [isProcessing, setIsProcessing] = useState(false)
-  const processingTimer = useRef(null)
-
-  useEffect(() => {
-    return () => clearTimeout(processingTimer.current)
-    }, [])
 
   return (
     <main className="checkout-page">
