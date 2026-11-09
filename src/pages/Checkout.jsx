@@ -11,6 +11,42 @@ import {
 } from '../utils/validation'
 import '../styles/form-validation.css'
 
+// start form fields off with nothign inside 
+const initialValues = {
+  email: '',
+  fullName: '',
+  address: '',
+  city: '',
+  state: '',
+  zip: '',
+  cardholderName: '',
+  cardNumber: '',
+  expirationDate: '',
+  cvc: ''
+}
+
+// uses the new validator functions for each field
+const validators = {
+  email: validateEmail,
+  fullName: (value) => validateRequired(value, 'Full name'),
+  address: (value) => validateRequired(value, 'Street address'),
+  city: (value) => validateRequired(value, 'City'),
+  state: (value) => validateRequired(value, 'State'),
+  zip: validateZipCode,
+  cardholderName: (value) =>
+    validateRequired(value, 'Cardholder name'),
+  cardNumber: validateCardNumber,
+  expirationDate: validateExpiration,
+  cvc: validateCVC
+}
+
+const shippingFields = [
+  'email', 'fullName', 'address', 'city', 'state', 'zip'
+]
+
+const cardFields = [
+  'cardholderName', 'cardNumber', 'expirationDate', 'cvc'
+]
 
 function CheckoutField({ label, id, placeholder, type = 'text' }) {
   return (
