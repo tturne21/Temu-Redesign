@@ -221,7 +221,21 @@ function Checkout({ items = [], onPlaceOrder }) {
       <h1 className="checkout-title">CHECKOUT</h1>
 
       <div className="checkout-layout">
-        <form className="checkout-form" onSubmit={handleSubmit}>
+        <form className="checkout-form" onSubmit={handleSubmit} noValidate>
+
+          {attemptedSubmit && hasErrors && (
+            <p className="form-feedback-error" role="alert">
+              Please correct the highlighted fields
+              before placing your order.
+            </p>
+          )}
+
+          {connectionError && (
+            <p className="form-feedback-error" role="alert">
+              {connectionError}
+            </p>
+          )}
+
 
           <section className="checkout-section">
             <h2>CONTACT INFORMATION</h2>
@@ -231,6 +245,7 @@ function Checkout({ items = [], onPlaceOrder }) {
               id="email"
               type="email"
               placeholder="Enter email address"
+              {...getFieldProps('email')}
             />
           </section>
 
@@ -242,12 +257,14 @@ function Checkout({ items = [], onPlaceOrder }) {
                 label="Full Name"
                 id="fullName"
                 placeholder="Enter full name"
+                {...getFieldProps('fullName')}
               />
 
               <CheckoutField
                 label="Street Address"
                 id="address"
                 placeholder="Enter street address"
+                {...getFieldProps('address')}
               />
             </div>
 
@@ -256,18 +273,21 @@ function Checkout({ items = [], onPlaceOrder }) {
                 label="City"
                 id="city"
                 placeholder="Enter city"
+                {...getFieldProps('city')}
               />
 
               <CheckoutField
                 label="State"
                 id="state"
                 placeholder="Enter state"
+                {...getFieldProps('state')}
               />
 
               <CheckoutField
                 label="ZIP"
                 id="zip"
                 placeholder="ZIP code"
+                {...getFieldProps('zip')}
               />
             </div>
           </section>
@@ -303,7 +323,9 @@ function Checkout({ items = [], onPlaceOrder }) {
                 <div className="checkout-card-details">
                   <h3>CARD DETAILS</h3>
 
+                  
                   <div className="checkout-fields">
+
                     <label className="checkout-field">
                       <span>Cardholder Name</span>
                       <input
@@ -311,6 +333,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         placeholder="Enter Cardholder Name"
                         autoComplete="off"
                         required
+                        {...getFieldProps('cardholderName')}
                       />
                     </label>
 
@@ -323,6 +346,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="[0-9]{16}|[0-9]{4}( [0-9]{4}){3}"
                         autoComplete="off"
                         required
+                        {...getFieldProps('cardNumber')}
                       />
                     </label>
                   </div>
@@ -336,6 +360,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="(0[1-9]|1[0-2])/[0-9]{2}"
                         autoComplete="off"
                         required
+                        {...getFieldProps('expirationDate')}
                       />
                     </label>
 
@@ -348,6 +373,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="[0-9]{3,4}"
                         autoComplete="off"
                         required
+                        {...getFieldProps('cvc')}
                       />
                     </label>
                   </div>
