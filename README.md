@@ -113,3 +113,25 @@ errors and block submission while any applicable error remains. The helpers do
 not track interaction state, change styling, or verify payment credentials.
 
 Run the validation checks with `node --test tests/validation.test.js`.
+
+## Form Validation & User Feedback
+
+The Checkout and Quick Checkout forms include real-time
+validation and user feedback to improve the shopping experience.
+
+### Validation Features
+- Required field validation
+- Email, ZIP code, and payment information validation
+- Red borders around invalid fields
+- Specific inline error messages near invalid inputs
+- Error messages that disappear when corrected
+- Helpful guidance messages
+- Prevention of order submission with invalid information
+- Loading feedback during order processing
+
+### Testing
+- Tested regular Checkout with valid and invalid inputs
+- Tested Quick Checkout with valid and invalid inputs
+- Confirmed errors disappear when corrected
+- Confirmed successful orders reach the confirmation page
+- Successfully ran npm run build
