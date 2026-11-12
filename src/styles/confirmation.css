@@ -49,9 +49,8 @@
 }
 
 .confirmation-check {
-  color: #2e7d32;
+  color: var(--status-success);
   font-size: 22px;
-  font-weight: 700;
 }
 
 /*final purchase confirmed popup*/

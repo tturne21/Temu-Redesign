@@ -9,6 +9,7 @@ import Checkout from './pages/Checkout'
 import Confirmation from './pages/Confirmation'
 import QuickCheckout from './pages/QuickCheckout'
 import LoadingScreen from './components/LoadingScreen'
+import SiteFooter from './components/SiteFooter'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -223,11 +224,18 @@ function App() {
         />
       )}
 
-      {quickCheckoutProduct && (
+            {quickCheckoutProduct && (
         <QuickCheckout
           product={quickCheckoutProduct}
           onClose={() => setQuickCheckoutProduct(null)}
           onPlaceOrder={startOrderProcessing}
+        />
+      )}
+
+      {currentPage !== 'loading' && (
+        <SiteFooter
+          onHome={handleHome}
+          onCategory={handleCategory}
         />
       )}
     </div>

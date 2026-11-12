@@ -3,17 +3,21 @@ import '../styles/product-card.css'
 function ProductCard({ image, name, price, onProductClick, onAddToCart }) {
   return (
     
-<article
-  className="product-card"
-  onClick={onProductClick}
->
+<article className="product-card">
 
       
-      <img
-        className="product-card__image"
-        src={image}
-        alt={name}
-      />
+      <button
+        type="button"
+        className="product-card__link"
+        onClick={onProductClick}
+        aria-label={`View details for ${name}`}
+      >
+        <img
+          className="product-card__image"
+          src={image}
+          alt=""
+        />
+      </button>
 
       <div className="product-card__info">
         <h3 className="product-card__name">{name}</h3>

@@ -172,7 +172,7 @@
   border: none;
   border-radius: 8px;
   background: var(--brand-primary, #fb7701);
-  color: #ffffff;
+  color: var(--text-on-primary);
   font-family: inherit;
   font-size: 16px;
   font-weight: 600;
