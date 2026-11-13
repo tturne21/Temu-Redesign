@@ -49,6 +49,15 @@ const validators = {
   cvc: validateCVC
 }
 
+const cardDetailsComplete =
+  paymentMethod === 'card' &&
+  Object.keys(validators).every(
+    (field) =>
+      cardFields[field].trim() !== '' &&
+      validators[field](cardFields[field]) === ''
+  )
+
+
 function handleCardFieldChange(event) {
   const { name, value } = event.target
 
@@ -476,6 +485,13 @@ className={fieldErrors.cvc ? 'form-input-error' : ''}
                   </div>
                 </div>
               )}
+
+{cardDetailsComplete && (
+  <p className="form-success-message" role="status">
+    ✓ Card details complete
+  </p>
+)}
+
             </section>
 
             <div className="quick-checkout-summary">

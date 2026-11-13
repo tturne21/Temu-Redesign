@@ -69,6 +69,65 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
             ${price.toFixed(2)}
           </p>
 
+           <div className="product-details__actions">
+            <button
+              type="button"
+              className="product-details__add"
+              onClick={handleAddToCart}
+            >
+              ADD TO CART
+            </button>
+
+            <button
+              type="button"
+              className="product-details__checkout"
+              onClick={handleQuickCheckout}
+            >
+              QUICK CHECKOUT
+            </button>
+          </div>
+
+
+
+
+
+
+
+<section className="product-details__section" aria-labelledby="product-description-title">
+  <h2 id="product-description-title">Product Description</h2>
+  <p>{selectedProduct.description || 'No product description available.'}</p>
+</section>
+
+
+{selectedProduct.details?.length > 0 && (
+  <section
+    className="product-details__section"
+    aria-labelledby="product-specifications-title"
+  >
+    <h2 id="product-specifications-title">Product Specifications</h2>
+    <ul>
+      {selectedProduct.details.map((detail, index) => (
+        <li key={index}>{detail}</li>
+      ))}
+    </ul>
+  </section>
+)}
+
+
+<section
+  className="product-details__section"
+  aria-labelledby="product-info-title"
+>
+  <h2 id="product-info-title">Product & Delivery Information</h2>
+  <p>Category: {selectedProduct.category}</p>
+  <p>Price per item: ${price.toFixed(2)}</p>
+  <p>Delivery options and estimated arrival dates are shown at checkout when available.</p>
+</section>
+
+
+
+
+
           {availableColors.length > 0 && (
             <div className="product-details__section">
               <h3>COLOR:</h3>
@@ -117,23 +176,7 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
             </div>
           </div>
 
-          <div className="product-details__actions">
-            <button
-              type="button"
-              className="product-details__add"
-              onClick={handleAddToCart}
-            >
-              ADD TO CART
-            </button>
-
-            <button
-              type="button"
-              className="product-details__checkout"
-              onClick={handleQuickCheckout}
-            >
-              QUICK CHECKOUT
-            </button>
-          </div>
+         
 
           {message && (
             <p className="product-details__message" role="status">
