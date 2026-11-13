@@ -227,3 +227,64 @@
     font-size: 32px;
   }
 }
+
+
+/* Assignment 13 - Product information improvements */
+
+.product-details__section {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  background: var(--background-surface);
+}
+
+.product-details__section h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.product-details__section p,
+.product-details__section li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.product-details__section ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.product-details__section li {
+  margin-bottom: 6px;
+}
+
+
+/* Assignment 13 - Purchase button improvements */
+
+.product-details__actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.product-details__actions button {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .product-details__actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
