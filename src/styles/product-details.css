@@ -59,6 +59,14 @@
   font-weight: 700;
 }
 
+.product-details__original-price {
+  margin-left: 10px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
 .product-details__section {
   width: 100%;
 }

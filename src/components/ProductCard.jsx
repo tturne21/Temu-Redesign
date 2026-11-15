@@ -1,6 +1,13 @@
 import '../styles/product-card.css'
 
-function ProductCard({ image, name, price, onProductClick, onAddToCart }) {
+function ProductCard({
+  image,
+  name,
+  price,
+  originalPrice,
+  onProductClick,
+  onAddToCart,
+}) {
   return (
     
 <article className="product-card">
@@ -21,7 +28,14 @@ function ProductCard({ image, name, price, onProductClick, onAddToCart }) {
 
       <div className="product-card__info">
         <h3 className="product-card__name">{name}</h3>
-        <p className="product-card__price">{price}</p>
+        <p className="product-card__price">
+          {price}
+          {originalPrice && (
+            <span className="product-card__original-price">
+              {originalPrice}
+            </span>
+          )}
+        </p>
       </div>
 
       

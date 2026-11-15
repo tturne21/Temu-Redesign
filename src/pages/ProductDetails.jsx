@@ -67,6 +67,11 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
 
           <p className="product-details__price">
             ${price.toFixed(2)}
+            {selectedProduct.originalPrice && (
+              <span className="product-details__original-price">
+                {selectedProduct.originalPrice}
+              </span>
+            )}
           </p>
 
            <div className="product-details__actions">

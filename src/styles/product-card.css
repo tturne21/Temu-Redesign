@@ -57,6 +57,13 @@
   font-weight: 400;
 }
 
+.product-card__original-price {
+  margin-left: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  text-decoration: line-through;
+}
+
 .product-card__button {
   width: 100%;
   min-width: 0;

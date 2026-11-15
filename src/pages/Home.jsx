@@ -2,7 +2,40 @@ import ProductCard from '../components/ProductCard'
 import { weeklyDeals, popularProducts, otherProducts } from '../data/products'
 import '../styles/home.css'
 
-function Home({ products, searchQuery, selectedCategory, onProductClick, onAddToCart }) {
+function Home({
+  products,
+  searchQuery,
+  selectedCategory,
+  showDeals,
+  onProductClick,
+  onAddToCart,
+}) {
+  if (showDeals) {
+    return (
+      <main className="home">
+        <section className="home__section">
+          <h1 className="home__title">DEALS</h1>
+          <p>Save on these featured products while the deals last.</p>
+          <div className="home__products">
+            {weeklyDeals.map((product) => (
+              <ProductCard
+                key={product.id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                originalPrice={product.originalPrice}
+                onProductClick={() => onProductClick?.(product)}
+                onAddToCart={() =>
+                  onAddToCart?.({ ...product, quantity: 1 })
+                }
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+    )
+  }
+
   if (searchQuery || selectedCategory) {
     const normalizedQuery = searchQuery.toLocaleLowerCase()
     const filteredProducts = products.filter((product) => {
@@ -32,6 +65,7 @@ function Home({ products, searchQuery, selectedCategory, onProductClick, onAddTo
                   image={product.image}
                   name={product.name}
                   price={product.price}
+                  originalPrice={product.originalPrice}
                   onProductClick={() => onProductClick?.(product)}
 
 onAddToCart={() => onAddToCart?.({
@@ -78,6 +112,7 @@ return (
               image={product.image}
               name={product.name}
               price={product.price}
+              originalPrice={product.originalPrice}
               onProductClick={() => onProductClick?.(product)}
 
 onAddToCart={() => onAddToCart?.({
