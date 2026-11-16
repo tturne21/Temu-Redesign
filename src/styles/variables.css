@@ -2,7 +2,7 @@
   /* Brand */
   --brand-primary: #ff7701;
   --brand-primary-hover: #d95f00;
-  --brand-primary-pressed: #b84d00;
+  --brand-primary-pressed: #ff943d;
 
   /* Background */
   --background-page: #f7f7f7;
@@ -12,7 +12,7 @@
   /* Text */
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
-  --text-on-primary: #ffffff;
+  --text-on-primary: #1a1a1a;
 
   /* Border */
   --border-default: #dddddd;
@@ -41,7 +41,7 @@
   /* Brand */
   --brand-primary: #ff7701;
   --brand-primary-hover: #ff943d;
-  --brand-primary-pressed: #d95f00;
+  --brand-primary-pressed: #ff943d;
 
   /* Background */
   --background-page: #121212;
@@ -51,7 +51,7 @@
   /* Text */
   --text-primary: #f5f5f5;
   --text-secondary: #b3b3b3;
-  --text-on-primary: #ffffff;
+  --text-on-primary: #121212;
 
   /* Border */
   --border-default: #404040;

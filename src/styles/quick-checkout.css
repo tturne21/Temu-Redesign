@@ -316,7 +316,7 @@
 }
 
 .quick-checkout-error {
-  color: #d32f2f;
+  color: var(--status-error);
   font-size: 14px;
 }
 
