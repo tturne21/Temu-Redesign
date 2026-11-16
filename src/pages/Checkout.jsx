@@ -333,7 +333,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         placeholder="Enter Cardholder Name"
                         autoComplete="off"
                         required
-                        {...getFieldProps('cardholderName')}
+                        //{...getFieldProps('cardholderName')}
                       />
                     </label>
 
@@ -346,7 +346,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="[0-9]{16}|[0-9]{4}( [0-9]{4}){3}"
                         autoComplete="off"
                         required
-                        {...getFieldProps('cardNumber')}
+                        //{...getFieldProps('cardNumber')}
                       />
                     </label>
                   </div>
@@ -360,7 +360,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="(0[1-9]|1[0-2])/[0-9]{2}"
                         autoComplete="off"
                         required
-                        {...getFieldProps('expirationDate')}
+                        //{...getFieldProps('expirationDate')}
                       />
                     </label>
 
@@ -373,7 +373,7 @@ function Checkout({ items = [], onPlaceOrder }) {
                         pattern="[0-9]{3,4}"
                         autoComplete="off"
                         required
-                        {...getFieldProps('cvc')}
+                        //{...getFieldProps('cvc')}
                       />
                     </label>
                   </div>
