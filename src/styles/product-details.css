@@ -296,3 +296,15 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.product-details__feedback {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.product-details__message {
+  margin: 0;
+  color: var(--status-success);
+  font-size: 14px;
+  font-weight: 500;
+}

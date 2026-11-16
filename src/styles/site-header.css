@@ -514,3 +514,14 @@
     font-size: 15px;
   }
 }
+
+/* Hide the browser's default search clear button */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Improve TEMU logo contrast in light mode */
+[data-theme='light'] .brand {
+  color: #a84600;
+}

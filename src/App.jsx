@@ -93,6 +93,7 @@ function App() {
   )
   const [route, setRoute] = useState(readRoute)
   const [quickCheckoutProduct, setQuickCheckoutProduct] = useState(null)
+  const [checkoutType, setCheckoutType] = useState(null)
   const [cartMessage, setCartMessage] = useState('')
   const { page: currentPage, selectedProduct, selectedCategory, searchQuery } = route
 
@@ -206,6 +207,21 @@ function App() {
     })
   }
 
+  function handleClearSearch() {
+  const nextRoute = {
+    ...route,
+    searchQuery: '',
+  }
+
+  window.history.replaceState(
+    {},
+    '',
+    buildRouteUrl(nextRoute)
+  )
+
+  setRoute(nextRoute)
+}
+
   function handleCategory(category) {
     navigate({
       page: 'home',
@@ -227,7 +243,8 @@ function App() {
     navigate({ page: 'checkout', selectedProduct: null, selectedCategory: null, searchQuery: '' })
   }
 
-  function startOrderProcessing() {
+  function startOrderProcessing(type) {
+    setCheckoutType(type)
     setQuickCheckoutProduct(null)
     setRoute({ ...route, page: 'loading' })
     window.scrollTo(0, 0)
@@ -238,7 +255,11 @@ function App() {
   }
 
   function continueShopping() {
-    setCartItems([])
+    if (checkoutType === 'regular') {
+      setCartItems([])
+    }
+
+    setCheckoutType(null)
     handleHome()
   }
 
@@ -266,6 +287,7 @@ function App() {
         cartCount={cartCount}
         darkMode={darkMode}
         onToggleTheme={toggleTheme}
+        onClearSearch={handleClearSearch}
       />
 
       {(currentPage === 'home' || currentPage === 'deals') && (
@@ -298,7 +320,7 @@ function App() {
       )}
 
       {currentPage === 'checkout' && (
-        <Checkout items={cartItems} onPlaceOrder={startOrderProcessing} />
+        <Checkout items={cartItems}onPlaceOrder={() => startOrderProcessing('regular')}/>
       )}
 
       {currentPage === 'loading' && (
@@ -317,7 +339,7 @@ function App() {
         <QuickCheckout
           product={quickCheckoutProduct}
           onClose={() => setQuickCheckoutProduct(null)}
-          onPlaceOrder={startOrderProcessing}
+          onPlaceOrder={() => startOrderProcessing('quick')}
         />
       )}
 

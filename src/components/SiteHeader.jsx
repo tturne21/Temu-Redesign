@@ -102,7 +102,6 @@ function SiteHeader({
   function clearSearch() {
     setSearchText('')
     setSuggestionsOpen(false)
-    onHome()
   }
 
   function selectDeals(event) {
@@ -172,18 +171,15 @@ function SiteHeader({
           <input
             id="site-search"
             type="search"
+            role="combobox"
+            aria-autocomplete="list"
             placeholder="Search products..."
             aria-controls="search-suggestions"
             aria-expanded={suggestionsOpen}
             value={searchText}
             onChange={(event) => {
-              const nextSearchText = event.target.value
-              setSearchText(nextSearchText)
+              setSearchText(event.target.value)
               setSuggestionsOpen(true)
-
-              if (!nextSearchText.trim() && searchText.trim()) {
-                onHome()
-              }
             }}
             onFocus={() => setSuggestionsOpen(true)}
           />
