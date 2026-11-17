@@ -1,6 +1,7 @@
 
 import '../styles/loading-screen.css'
 import { useEffect, useRef } from 'react'
+import loadingIcon from '../assets/images/loading-icon.png'
 
 function LoadingScreen({
   heading = '',
@@ -36,10 +37,10 @@ useEffect(() => {
 
       <div className="loading-screen__content">
         <img
-          src="src/assets/images/loading-icon.png"
-          alt=""
-          className="loading-screen__icon"
-        />
+        src={loadingIcon}
+        alt=""
+        className="loading-screen__icon"
+      />
 
         <p className="loading-screen__message">
           {message}

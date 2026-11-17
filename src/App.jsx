@@ -251,14 +251,19 @@ function App() {
   }
 
   function finishOrderProcessing() {
-    navigate({ page: 'confirmation', selectedProduct: null, selectedCategory: null, searchQuery: '' })
-  }
-
-  function continueShopping() {
     if (checkoutType === 'regular') {
       setCartItems([])
     }
 
+    navigate({
+      page: 'confirmation',
+      selectedProduct: null,
+      selectedCategory: null,
+      searchQuery: '',
+    })
+  }
+
+  function continueShopping() {
     setCheckoutType(null)
     handleHome()
   }
