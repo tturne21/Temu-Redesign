@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect} from 'react'
-import OrderSummary from '../components/OrderSummary'
+import CheckoutOrderSummary from '../components/CheckoutOrderSummary'
 import '../styles/checkout.css'
 import {
   validateRequired,
@@ -125,6 +125,33 @@ function Checkout({ items = [], onPlaceOrder }) {
 
   const [isProcessing, setIsProcessing] = useState(false)
 
+  //for changing color of producs in checkout
+
+  const [selectedColors, setSelectedColors] = useState({})
+
+  const checkoutItems = items.map((item, index) => {
+  const availableColors = Object.keys(item.colorImages || {})
+
+  const startingColor =
+    item.color ||
+    (availableColors.includes('Black')
+      ? 'Black'
+      : availableColors[0] || '')
+
+  const color = selectedColors[index] ?? startingColor
+
+  return {
+    ...item,
+    color,
+    image: item.colorImages?.[color] || item.image
+  }
+  })
+  function handleColorChange(index, newColor) {
+  setSelectedColors((current) => ({
+    ...current,
+    [index]: newColor
+  }))
+  }
   
 
   const activeFields = paymentMethod === 'card'
@@ -205,7 +232,7 @@ function Checkout({ items = [], onPlaceOrder }) {
     }
 
     const order = {
-      items,
+      items: checkoutItems,
       paymentMethod,
       customer
     }
@@ -218,181 +245,171 @@ function Checkout({ items = [], onPlaceOrder }) {
 
   return (
     <main className="checkout-page">
-      <h1 className="checkout-title">CHECKOUT</h1>
+      <div className="checkout-container">
+        <h1 className="checkout-title">CHECKOUT</h1>
 
-      <div className="checkout-layout">
-        <form className="checkout-form" onSubmit={handleSubmit} noValidate>
+        <div className="checkout-layout">
+          <form className="checkout-form" onSubmit={handleSubmit} noValidate>
 
-          {attemptedSubmit && hasErrors && (
-            <p className="form-feedback-error" role="alert">
-              Please correct the highlighted fields
-              before placing your order.
-            </p>
-          )}
+            {attemptedSubmit && hasErrors && (
+              <p className="form-feedback-error" role="alert">
+                Please correct the highlighted fields
+                before placing your order.
+              </p>
+            )}
 
-          {connectionError && (
-            <p className="form-feedback-error" role="alert">
-              {connectionError}
-            </p>
-          )}
+            {connectionError && (
+              <p className="form-feedback-error" role="alert">
+                {connectionError}
+              </p>
+            )}
 
 
-          <section className="checkout-section">
-            <h2>CONTACT INFORMATION</h2>
-
-            <CheckoutField
-              label="Email Address"
-              id="email"
-              type="email"
-              placeholder="Enter email address"
-              {...getFieldProps('email')}
-            />
-          </section>
-
-          <section className="checkout-section">
-            <h2>SHIPPING ADDRESS</h2>
-
-            <div className="checkout-fields">
-              <CheckoutField
-                label="Full Name"
-                id="fullName"
-                placeholder="Enter full name"
-                {...getFieldProps('fullName')}
-              />
+            <section className="checkout-section">
+              <h2>CONTACT INFORMATION</h2>
 
               <CheckoutField
-                label="Street Address"
-                id="address"
-                placeholder="Enter street address"
-                {...getFieldProps('address')}
+                label="Email Address"
+                id="email"
+                type="email"
+                placeholder="Enter email address"
+                {...getFieldProps('email')}
               />
-            </div>
+            </section>
 
-            <div className="checkout-address-row">
-              <CheckoutField
-                label="City"
-                id="city"
-                placeholder="Enter city"
-                {...getFieldProps('city')}
-              />
+            <section className="checkout-section">
+              <h2>SHIPPING ADDRESS</h2>
 
-              <CheckoutField
-                label="State"
-                id="state"
-                placeholder="Enter state"
-                {...getFieldProps('state')}
-              />
+              <div className="checkout-fields">
+                <CheckoutField
+                  label="Full Name"
+                  id="fullName"
+                  placeholder="Enter full name"
+                  {...getFieldProps('fullName')}
+                />
 
-              <CheckoutField
-                label="ZIP"
-                id="zip"
-                placeholder="ZIP code"
-                {...getFieldProps('zip')}
-              />
-            </div>
-          </section>
+                <CheckoutField
+                  label="Street Address"
+                  id="address"
+                  placeholder="Enter street address"
+                  {...getFieldProps('address')}
+                />
+              </div>
 
-          <section className="checkout-section">
-            <h2>PAYMENT METHOD</h2>
+              <div className="checkout-address-row">
+                <CheckoutField
+                  label="City"
+                  id="city"
+                  placeholder="Enter city"
+                  {...getFieldProps('city')}
+                />
 
-            <div className="checkout-payment-methods">
-              <p>Select Payment Method:</p>
+                <CheckoutField
+                  label="State"
+                  id="state"
+                  placeholder="Enter state"
+                  {...getFieldProps('state')}
+                />
 
-              {[
-                { value: 'card', label: 'Credit / Debit Card' },
-                { value: 'paypal', label: 'PayPal' },
-                { value: 'applepay', label: 'Apple Pay' }
-              ].map((method) => (
-                <label
-                  className="checkout-payment-option"
-                  key={method.value}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value={method.value}
-                    checked={paymentMethod === method.value}
-                    onChange={() => setPaymentMethod(method.value)}
-                  />
-                  <span>{method.label}</span>
-                </label>
-              ))}
-            </div>
+                <CheckoutField
+                  label="ZIP"
+                  id="zip"
+                  placeholder="ZIP code"
+                  {...getFieldProps('zip')}
+                />
+              </div>
+            </section>
 
+            <section className="checkout-section">
+              <h2>PAYMENT METHOD</h2>
+
+              <div className="checkout-payment-methods">
+                <p>Select Payment Method:</p>
+
+                {[
+                  { value: 'card', label: 'Credit / Debit Card' },
+                  { value: 'paypal', label: 'PayPal' },
+                  { value: 'applepay', label: 'Apple Pay' }
+                ].map((method) => (
+                  <label
+                    className="checkout-payment-option"
+                    key={method.value}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method.value}
+                      checked={paymentMethod === method.value}
+                      onChange={() => setPaymentMethod(method.value)}
+                    />
+                    <span>{method.label}</span>
+                  </label>
+                ))}
+              </div>
+
+                
               {paymentMethod === 'card' && (
                 <div className="checkout-card-details">
                   <h3>CARD DETAILS</h3>
 
-                  
                   <div className="checkout-fields">
+                    <CheckoutField
+                      label="Cardholder Name"
+                      id="cardholderName"
+                      placeholder="Enter Cardholder Name"
+                      autoComplete="off"
+                      {...getFieldProps('cardholderName')}
+                    />
 
-                    <label className="checkout-field">
-                      <span>Cardholder Name</span>
-                      <input
-                        type="text"
-                        placeholder="Enter Cardholder Name"
-                        autoComplete="off"
-                        required
-                        {...getFieldProps('cardholderName')}
-                      />
-                    </label>
-
-                    <label className="checkout-field">
-                      <span>Credit/Debit Card Number</span>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="Enter Card Number"
-                        pattern="[0-9]{16}|[0-9]{4}( [0-9]{4}){3}"
-                        autoComplete="off"
-                        required
-                        {...getFieldProps('cardNumber')}
-                      />
-                    </label>
+                    <CheckoutField
+                      label="Credit/Debit Card Number"
+                      id="cardNumber"
+                      placeholder="Enter Card Number"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      {...getFieldProps('cardNumber')}
+                    />
                   </div>
 
                   <div className="checkout-fields">
-                    <label className="checkout-field">
-                      <span>Expiration Date</span>
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        pattern="(0[1-9]|1[0-2])/[0-9]{2}"
-                        autoComplete="off"
-                        required
-                        {...getFieldProps('expirationDate')}
-                      />
-                    </label>
+                    <CheckoutField
+                      label="Expiration Date"
+                      id="expirationDate"
+                      placeholder="MM/YY"
+                      autoComplete="off"
+                      {...getFieldProps('expirationDate')}
+                    />
 
-                    <label className="checkout-field">
-                      <span>Test CVC</span>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="123"
-                        pattern="[0-9]{3,4}"
-                        autoComplete="off"
-                        required
-                        {...getFieldProps('cvc')}
-                      />
-                    </label>
+                    <CheckoutField
+                      label="Test CVC"
+                      id="cvc"
+                      placeholder="123"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      {...getFieldProps('cvc')}
+                    />
                   </div>
                 </div>
               )}
 
-          </section>
 
-          <button
-            type="submit"
-            className="checkout-submit"
-            disabled={isProcessing}
-            >
-            PLACE ORDER
-          </button>
-        </form>
+            </section>
 
-        <OrderSummary items={items} />
-      </div>
+            <button
+              type="submit"
+              className="checkout-submit"
+              disabled={isProcessing}
+              >
+              PLACE ORDER
+            </button>
+          </form>
+
+          <CheckoutOrderSummary
+            items={checkoutItems}
+            onColorChange={handleColorChange}
+          />
+        </div>
+      </div> 
     </main>
   )
 }
