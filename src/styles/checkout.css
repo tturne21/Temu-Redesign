@@ -363,3 +363,207 @@
     animation: none;
   }
 }
+
+
+/* REGULAR CHECKOUT: Responsive content container */
+
+.checkout-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.checkout-page .checkout-title {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.checkout-page .checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 330px);
+  gap: clamp(20px, 3vw, 48px);
+  justify-content: stretch;
+  max-width: none;
+  margin: 0;
+}
+
+/* Use the available form width instead of narrow inputs */
+
+.checkout-page .checkout-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+.checkout-page .checkout-field {
+  max-width: none;
+}
+
+.checkout-page .checkout-address-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.checkout-page .checkout-section {
+  padding: 24px;
+  border: 1px solid var(--border-default, #dddddd);
+  border-radius: 12px;
+  background: var(--background-surface, #ffffff);
+}
+
+.checkout-page .checkout-payment-methods {
+  max-width: none;
+  padding: 0;
+}
+
+.checkout-page .checkout-submit {
+  max-width: none;
+}
+
+/* NEW: Checkout-only order summary */
+
+.checkout-order-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border-default, #dddddd);
+  border-radius: 12px;
+  background: var(--background-surface, #ffffff);
+}
+
+.checkout-order-summary h2 {
+  margin: 0;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 24px;
+  text-align: center;
+}
+
+.checkout-summary-count {
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+  color: var(--brand-primary, #fb7701);
+}
+
+.checkout-summary-products {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-summary-product {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-default, #dddddd);
+}
+
+.checkout-summary-product img,
+.checkout-summary-placeholder {
+  width: 76px;
+  height: 88px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.checkout-summary-placeholder {
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: var(--text-secondary, #666666);
+}
+
+.checkout-summary-info {
+  min-width: 0;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 13px;
+}
+
+.checkout-summary-info h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.checkout-summary-info p {
+  margin: 6px 0;
+}
+
+.checkout-summary-color {
+  margin: 10px 0;
+}
+
+.checkout-summary-color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.checkout-summary-color-options button {
+  padding: 6px 9px;
+  border: 1px solid var(--border-default, #dddddd);
+  border-radius: 6px;
+  background: var(--background-surface, #ffffff);
+  color: var(--text-primary, #1a1a1a);
+  cursor: pointer;
+  font: inherit;
+}
+
+.checkout-summary-color-options button.is-selected {
+  border-color: var(--brand-primary, #fb7701);
+  color: var(--brand-primary, #fb7701);
+  font-weight: 700;
+}
+
+.checkout-summary-color-options button:hover {
+  border-color: var(--brand-primary, #fb7701);
+}
+
+.checkout-summary-price {
+  color: var(--text-secondary, #666666);
+}
+
+.checkout-summary-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-primary, #1a1a1a);
+  font-size: 14px;
+}
+
+.checkout-summary-row span:last-child,
+.checkout-summary-row strong:last-child {
+  flex-shrink: 0;
+}
+
+.checkout-order-summary hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--border-default, #dddddd);
+}
+
+/* Adapt to browser zoom and smaller screens */
+
+@media (max-width: 900px) {
+  .checkout-page .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .checkout-page .checkout-fields,
+  .checkout-page .checkout-address-row {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-page .checkout-section {
+    padding: 16px;
+  }
+}
