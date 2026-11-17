@@ -17,6 +17,30 @@ This project is a responsive redesign of the Temu website created using React, V
 - Order confirmation
 - Light and dark mode
 
+
+## Accessibility and Dark Mode Improvements
+
+### Accessibility
+- Improved text and background color contrast for readability.
+- Updated the search bar with appropriate ARIA attributes.
+- Improved the visibility of interactive controls and keyboard focus indicators.
+- Tested the website at different browser zoom levels, including 200%.
+- Verified responsive layouts on desktop, tablet, and mobile.
+- Used Chrome Lighthouse to evaluate accessibility and address reported issues.
+
+### Dark Mode
+- Added a light and dark mode toggle in the website header.
+- Applied consistent theme colors across the website.
+- Improved text, buttons, forms, and navigation visibility in dark mode.
+- Maintained readable product information and images in both themes.
+- Tested the shopping cart and checkout pages in both modes.
+
+### Accessibility Testing
+- Achieved a Lighthouse Accessibility score of 100 on the homepage after fixing reported issues.
+- Manually tested keyboard navigation, browser zoom, and color visibility.
+- Checked the website in both light and dark modes.
+
+
 ## How to Run the Project Locally
 
 ### 1. Install Node.js
