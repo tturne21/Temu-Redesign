@@ -46,23 +46,24 @@
 
   color: var(--text-primary);
 
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: var(--font-size-page-title);
+  line-height: var(--line-height-heading);
+  overflow-wrap: break-word;
 }
 
 .product-details__price {
   margin: 0;
 
-  color: var(--brand-primary);
+  color: var(--text-accent);
 
-  font-size: 28px;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
 }
 
 .product-details__original-price {
   margin-left: 10px;
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 400;
   text-decoration: line-through;
 }
@@ -76,7 +77,7 @@
 
   color: var(--text-primary);
 
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
 }
 
@@ -113,7 +114,7 @@
   border: 2px solid var(--brand-primary);
 
   background: var(--background-surface);
-  color: var(--brand-primary);
+  color: var(--text-accent);
 
   font-weight: 600;
 }
@@ -136,7 +137,7 @@
   background: var(--background-surface);
   color: var(--text-primary);
 
-  font-size: 20px;
+  font-size: var(--font-size-xl);
 
   cursor: pointer;
 
@@ -197,7 +198,7 @@
   border: 1px solid var(--brand-primary);
 
   background: transparent;
-  color: var(--brand-primary);
+  color: var(--text-accent);
 }
 
 .product-details__checkout:hover {
@@ -232,7 +233,7 @@
   }
 
   .product-details__info h1 {
-    font-size: 32px;
+    font-size: var(--font-size-page-title);
   }
 }
 
@@ -249,15 +250,15 @@
 
 .product-details__section h2 {
   margin: 0 0 12px;
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .product-details__section p,
 .product-details__section li {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
   color: var(--text-primary);
 }
 
@@ -286,7 +287,7 @@
   min-width: 0;
   min-height: 52px;
   padding: 14px 20px;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 700;
   text-align: center;
 }
@@ -305,6 +306,6 @@
 .product-details__message {
   margin: 0;
   color: var(--status-success);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
 }

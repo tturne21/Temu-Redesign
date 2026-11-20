@@ -9,7 +9,7 @@
 
 .loading-screen__heading {
   margin: 0;
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
 }
 
@@ -37,14 +37,14 @@
 
 .loading-screen__message {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--text-secondary, #666666);
 }
 
 .loading-screen__description {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--text-secondary, #666666);
 }
 
@@ -60,7 +60,7 @@
   }
 
   .loading-screen__heading {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
   }
 }
 

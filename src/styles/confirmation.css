@@ -32,6 +32,7 @@
 
 .confirmation-status {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 12px;
@@ -44,20 +45,27 @@
   background: var(--background-surface, #ffffff);
 
   color: var(--text-primary, #1a1a1a);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
+}
+
+.confirmation-title {
+  margin: 0;
+  font-size: var(--font-size-page-title);
+  font-weight: 700;
+  line-height: var(--line-height-heading);
 }
 
 .confirmation-check {
   color: var(--status-success);
-  font-size: 22px;
+  font-size: var(--font-size-2xl);
 }
 
 /*final purchase confirmed popup*/
 
 .confirmation-message {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   line-height: 1.5;
   color: var(--text-primary, #1a1a1a);
@@ -75,7 +83,7 @@
 
   color: var(--text-on-primary, #ffffff);
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
 
   cursor: pointer;
@@ -104,7 +112,7 @@
   }
 
   .confirmation-message {
-    font-size: 13px;
+    font-size: var(--font-size-xs);
   }
 
   .confirmation-status {

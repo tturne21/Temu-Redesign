@@ -45,15 +45,20 @@
 .product-card__name {
   margin: 0;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 400;
-  overflow-wrap: anywhere;
+  line-height: var(--line-height-body);
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: break-word;
 }
 
 .product-card__price {
   margin: 0;
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   font-weight: 400;
 }
 
@@ -76,7 +81,7 @@
   background-color: var(--brand-primary);
   color: var(--text-on-primary);
 
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   white-space: nowrap;
 
@@ -106,15 +111,15 @@
   }
 
   .product-card__name {
-    font-size: 16px;
+    font-size: var(--font-size-base);
   }
 
   .product-card__price {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 
   .product-card__button {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 }
 

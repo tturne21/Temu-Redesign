@@ -13,7 +13,7 @@ function Confirmation({ onContinueShopping }) {
           role="status"
         >
           <span className="confirmation-check">✓</span>
-          <span>ORDER CONFIRMED!</span>
+          <h1 className="confirmation-title">ORDER CONFIRMED!</h1>
         </div>
 
         <p className="confirmation-message">
