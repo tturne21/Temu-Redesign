@@ -68,6 +68,7 @@ export const weeklyDeals = [
   {
     id: 1,
     name: "Women's Casual Knit Top",
+    sizes: ['S', 'M', 'L', 'XL'],
     price: '$14.99',
     originalPrice: '$19.99',
     image: womensCasualTop,
@@ -122,6 +123,7 @@ export const popularProducts = [
   {
     id: 5,
     name: "Men's Lightweight Athletic Sneakers",
+    sizes: ['US 7', 'US 8', 'US 9', 'US 10', 'US 11', 'US 12'],
     price: '$26.99',
     image: everydaySneakers,
     category: 'Clothes',
@@ -181,6 +183,7 @@ export const otherProducts = [
   {
     id: 10,
     name: "Women's Two-Piece Lounge Set",
+    sizes: ['S', 'M', 'L', 'XL'],
     price: '$24.99',
     image: loungeSetBlack,
     category: 'Clothes',
@@ -195,6 +198,7 @@ export const otherProducts = [
   {
     id: 11,
     name: "Men's Casual Pullover Hoodie",
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     price: '$19.99',
     image: hoodieBrown,
     category: 'Clothes',

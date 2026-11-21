@@ -275,6 +275,15 @@ if (paymentMethod === 'card') {
                 </div>
               )}
 
+{/* SELECTED SIZE */}
+{product.size && (
+  <div className="quick-checkout-selection">
+    <span>SIZE</span>
+    <p><strong>{product.size}</strong></p>
+  </div>
+)}
+
+
               <div className="quick-checkout-selection">
                 <span>QUANTITY</span>
 
