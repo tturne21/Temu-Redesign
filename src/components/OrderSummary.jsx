@@ -24,6 +24,17 @@ function OrderSummary({ items = [] }) {
         {itemCount} ITEMS
       </p>
 
+{items.filter((item) => item.size).map((item) => (
+  <div
+    className="order-summary-row"
+    key={`${item.id}-${item.color || 'default'}-${item.size}`}
+  >
+    <span>{item.name} × {item.quantity}</span>
+    <strong>Size: {item.size}</strong>
+  </div>
+))}
+
+
       <div className="order-summary-row">
         <span>Item Total:</span>
         <span>${subtotal.toFixed(2)}</span>

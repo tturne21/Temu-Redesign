@@ -309,3 +309,56 @@
   font-size: var(--font-size-sm);
   font-weight: 500;
 }
+
+
+/* Assignment 14 - Product size selection */
+
+.product-details__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.product-details__sizes button {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.product-details__sizes button:hover {
+  border-color: #c2410c;
+}
+
+.product-details__sizes button.selected {
+  background-color: #c2410c;
+  border-color: #c2410c;
+  color: #ffffff;
+}
+
+.product-details__sizes button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.product-details__section .product-details__size-error {
+  color: var(--status-error, #b91c1c);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+[data-theme="dark"] .product-details__section .product-details__size-error {
+  color: #fca5a5;
+}
+
+[data-theme="dark"] .product-details__size-error {
+  color: #fca5a5;
+}

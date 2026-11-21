@@ -18,6 +18,11 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
   const [quantity, setQuantity] = useState(1)
   const [message, setMessage] = useState('')
 
+const availableSizes = selectedProduct.sizes || []
+const [size, setSize] = useState('')
+const [sizeError, setSizeError] = useState('')
+
+
   const price = Number(selectedProduct.price.replace('$', ''))
 
   const displayedImage =
@@ -25,29 +30,50 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
       ? selectedProduct.colorImages[color]
       : selectedProduct.image
 
-  function handleAddToCart() {
-    if (onAddToCart) {
-      onAddToCart({
-        ...selectedProduct,
-        image: displayedImage,
-        color,
-        quantity,
-      })
-
-      setMessage('Product added to cart!')
-    }
+  
+function handleAddToCart() {
+  if (availableSizes.length > 0 && !availableSizes.includes(size)) {
+    setSizeError('Please select a size before continuing.')
+    setMessage('')
+    return
   }
 
-  function handleQuickCheckout() {
-    if (onQuickCheckout) {
-      onQuickCheckout({
-        ...selectedProduct,
-        image: displayedImage,
-        color,
-        quantity,
-      })
-    }
+  if (onAddToCart) {
+    onAddToCart({
+      ...selectedProduct,
+      image: displayedImage,
+      color,
+      size: availableSizes.length > 0 ? size : '',
+      quantity,
+    })
+
+    setSizeError('')
+    setMessage('Product added to cart!')
   }
+}
+
+
+  
+function handleQuickCheckout() {
+  if (availableSizes.length > 0 && !availableSizes.includes(size)) {
+    setSizeError('Please select a size before continuing.')
+    setMessage('')
+    return
+  }
+
+  if (onQuickCheckout) {
+    setSizeError('')
+
+    onQuickCheckout({
+      ...selectedProduct,
+      image: displayedImage,
+      color,
+      size: availableSizes.length > 0 ? size : '',
+      quantity,
+    })
+  }
+}
+
 
   return (
     <main className="product-details">
@@ -120,6 +146,42 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
               </div>
             </div>
           )}
+
+{/* SIZE SELECTION */}
+{availableSizes.length > 0 && (
+  <div className="product-details__section">
+    <h3>SIZE:</h3>
+
+    <div
+      className="product-details__sizes"
+      role="group"
+      aria-label="Select product size"
+    >
+      {availableSizes.map((option) => (
+        <button
+          key={option}
+          type="button"
+          className={size === option ? 'selected' : ''}
+          aria-pressed={size === option}
+          onClick={() => {
+            setSize(option)
+            setSizeError('')
+            setMessage('')
+          }}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+
+    {sizeError && (
+      <p className="product-details__size-error" role="alert">
+        {sizeError}
+      </p>
+    )}
+  </div>
+)}
+
 
           {/* QUANTITY SELECTION */}
           <div className="product-details__section">

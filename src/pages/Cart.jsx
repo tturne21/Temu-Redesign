@@ -26,8 +26,10 @@ function Cart({
     timers.current.push(timer)
   }
 
-  const getItemKey = (item) =>
-    `${item.id}-${item.color || 'default'}`
+  
+const getItemKey = (item) =>
+  `${item.id}-${item.color || 'default'}-${item.size || 'no-size'}`
+
 
   const getPrice = (price) =>
     Number(String(price).replace('$', '')) || 0
@@ -50,11 +52,14 @@ function Cart({
 
     setAnimatingItem(null)
 
-    onUpdateQuantity?.(
-      item.id,
-      item.color,
-      item.quantity + change
-    )
+    
+onUpdateQuantity?.(
+  item.id,
+  item.color,
+  item.quantity + change,
+  item.size
+)
+
 
     schedule(() => setAnimatingItem(itemKey), 0)
     schedule(() => {
@@ -72,7 +77,9 @@ function Cart({
     setRemovingItem(itemKey)
 
     schedule(() => {
-      onRemove?.(item.id, item.color)
+      
+onRemove?.(item.id, item.color, item.size)
+
       setRemovingItem(null)
       setFeedback(`${item.name} removed from cart`)
     }, 250)
@@ -124,6 +131,12 @@ function Cart({
                     {item.color && (
                       <p>Color: {item.color}</p>
                     )}
+
+
+{item.size && (
+  <p>Size: {item.size}</p>
+)}
+
 
                     <p className="cart-price">
                       ${getPrice(item.price).toFixed(2)}

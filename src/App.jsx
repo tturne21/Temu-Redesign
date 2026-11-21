@@ -143,43 +143,65 @@ function App() {
     setDarkMode((currentMode) => !currentMode)
   }
 
-  function handleAddToCart(product) {
-    setCartItems((previousItems) => {
-      const existingItem = previousItems.find(
-        (item) => item.id === product.id && item.color === product.color,
-      )
-
-      if (existingItem) {
-        return previousItems.map((item) =>
-          item.id === product.id && item.color === product.color
-            ? { ...item, quantity: item.quantity + product.quantity }
-            : item,
-        )
-      }
-
-      return [...previousItems, product]
-    })
-
-    setCartMessage(`${product.name} added to cart!`)
+  
+function handleAddToCart(product) {
+  if (product.sizes?.length > 0 && !product.sizes.includes(product.size)) {
+    openProductDetails(product)
+    return
   }
 
-  function handleUpdateQuantity(productId, color, newQuantity) {
-    setCartItems((previousItems) =>
-      previousItems.map((item) =>
-        item.id === productId && item.color === color
-          ? { ...item, quantity: Math.max(1, newQuantity) }
+  setCartItems((previousItems) => {
+    const existingItem = previousItems.find(
+      (item) =>
+        item.id === product.id &&
+        item.color === product.color &&
+        (item.size || '') === (product.size || ''),
+    )
+
+    if (existingItem) {
+      return previousItems.map((item) =>
+        item.id === product.id &&
+        item.color === product.color &&
+        (item.size || '') === (product.size || '')
+          ? { ...item, quantity: item.quantity + product.quantity }
           : item,
-      ),
-    )
-  }
+      )
+    }
 
-  function handleRemoveFromCart(productId, color) {
-    setCartItems((previousItems) =>
-      previousItems.filter(
-        (item) => !(item.id === productId && item.color === color),
-      ),
-    )
-  }
+    return [...previousItems, product]
+  })
+
+  setCartMessage(`${product.name} added to cart!`)
+}
+
+  
+function handleUpdateQuantity(productId, color, newQuantity, size = '') {
+  setCartItems((previousItems) =>
+    previousItems.map((item) =>
+      item.id === productId &&
+      item.color === color &&
+      (item.size || '') === (size || '')
+        ? { ...item, quantity: Math.max(1, newQuantity) }
+        : item,
+    ),
+  )
+}
+
+
+  
+function handleRemoveFromCart(productId, color, size = '') {
+  setCartItems((previousItems) =>
+    previousItems.filter(
+      (item) =>
+        !(
+          item.id === productId &&
+          item.color === color &&
+          (item.size || '') === (size || '')
+        ),
+    ),
+  )
+}
+
 
   function openProductDetails(product) {
     navigate({
