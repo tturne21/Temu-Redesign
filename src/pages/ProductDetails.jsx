@@ -10,7 +10,9 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
     ? Object.keys(selectedProduct.colorImages)
     : []
 
-  const defaultColor = availableColors.includes('Black')
+  const defaultColor = availableColors.includes(selectedProduct.color)
+  ? selectedProduct.color
+  : availableColors.includes('Black')
     ? 'Black'
     : availableColors[0] || ''
 
@@ -19,7 +21,11 @@ function ProductDetails({ product, onAddToCart, onQuickCheckout }) {
   const [message, setMessage] = useState('')
 
 const availableSizes = selectedProduct.sizes || []
-const [size, setSize] = useState('')
+const [size, setSize] = useState(
+  availableSizes.includes(selectedProduct.size)
+    ? selectedProduct.size
+    : ''
+)
 const [sizeError, setSizeError] = useState('')
 
 
