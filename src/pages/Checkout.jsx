@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from 'react'
+import { useState} from 'react'
 import CheckoutOrderSummary from '../components/CheckoutOrderSummary'
 import '../styles/checkout.css'
 import {

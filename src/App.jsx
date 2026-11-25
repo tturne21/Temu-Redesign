@@ -10,6 +10,7 @@ import Confirmation from './pages/Confirmation'
 import QuickCheckout from './pages/QuickCheckout'
 import LoadingScreen from './components/LoadingScreen'
 import SiteFooter from './components/SiteFooter'
+import BackToTop from './components/BackToTop'
 
 function readRoute() {
   const params = new URLSearchParams(window.location.search)
@@ -372,6 +373,10 @@ function handleRemoveFromCart(productId, color, size = '') {
 
       {currentPage !== 'loading' && (
         <SiteFooter onHome={handleHome} onCategory={handleCategory} />
+      )}
+
+      {currentPage !== 'loading' && !quickCheckoutProduct && (
+        <BackToTop />
       )}
     </div>
   )
